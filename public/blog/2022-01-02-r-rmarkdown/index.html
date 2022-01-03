@@ -10,7 +10,7 @@
 <meta name="keywords" content="minimalist,blog,goa,hugo,developer">
 
 <title>
-  Bryant Chen - Hooli’s Hot New Hardware 
+  Bryant Chen - Hello R Markdown 
 </title>
 
 <meta name="generator" content="Hugo 0.83.1" />
@@ -41,20 +41,20 @@
 
 
 <header class="text-left title">
-  <h1 class="title">Hooli’s Hot New Hardware</h1>
+  <h1 class="title">Hello R Markdown</h1>
 </header>
 <section id="category-pane" class="meta">
   
   <div class="col-md-12">
     <h6 class="text-left meta">
-        PUBLISHED ON OCT 3, 2016 
+        PUBLISHED ON DEC 1, 2020 
       
       
       
       —
       
       
-      <a class="meta" href="/categories/propaganda">PROPAGANDA</a>
+      <a class="meta" href="/categories/r">R</a>
       
       
       
@@ -65,13 +65,49 @@
 <section id="content-pane" class="">
   <div class="col-md-12 text-justify content">
     
-    <nav id="TableOfContents"></nav>
     
-    <p>Note: This article originally appeared in <a href="http://www.coderag.com/hoolis-hot-new-hardware/">CodeRag</a>.</p>
-<p>When Hooli acquired Endframe, no one could wait to see what the tech giant would do with the revolutionary, middle-out compression technology. The wait is over: In a savvy pivot, Hooli took the software and created their newest hardware: the Hooli/Endframe Box. While initially conceived as a consumer-facing platform, the Endframe technology has been repurposed to “make the world a better place through secure, high-capacity enterprise data storage servers utilizing middle-out compression technology.”</p>
-<p>Insanely simple and beautifully crafted, the hardware backs up large amounts of data at a fraction of what it used to cost, so it’s no surprise that enterprise top dog Maleant Data System Solutions jumped at the chance to make a multi-year deal for the product. At a press conference announcing the blockbuster deal, CEO Calvin Greene stated, “The Hooli/Endframe Box is a welcome integration with our banking and medical system clients, who need to process large amounts of secure data at an accelerated pace.” Hooli’s Gavin Belson quipped that the world “always needs more money and doctors.”</p>
-<p>The hardware features a Dual Intel Haswell 2.6 Ghz processor, NVIDIA Tesla K80, Lightnight Eco Gen II SanDisk (800 TB, no less) and two 4TB Seagate hard drives. Matched with Endframe’s middle out algorithm, there’s a reason Maleant promises a 200 percent ROI to any client who elects to incorporate the Hooli/Endframe Box into their service deal with Maleant.</p>
-<p>The two companies flirted with multiple deal options before sealing the deal on a white label agreement, and becoming the power couple of enterprise data storage. Hooli could sell upgraded versions of these boxes to Maleant indefinitely, and Maleant’s penetration in the enterprise market ensures high demand for more Hooli/Endframe Boxes as long as Hooli can keep making them. Hundreds of millions of dollars could follow for Hooli’s enterprise sales division. With these two joining to sell storage solutions, no one will be able to touch their profits—or their data.</p>
+<script src="https://bryantchen.netlify.com/blog/2022-01-02-r-rmarkdown/index_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="r-markdown" class="section level1">
+<h1>R Markdown</h1>
+<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
+<p>You can embed an R code chunk like this:</p>
+<pre class="r"><code>summary(cars)
+##      speed           dist       
+##  Min.   : 4.0   Min.   :  2.00  
+##  1st Qu.:12.0   1st Qu.: 26.00  
+##  Median :15.0   Median : 36.00  
+##  Mean   :15.4   Mean   : 42.98  
+##  3rd Qu.:19.0   3rd Qu.: 56.00  
+##  Max.   :25.0   Max.   :120.00
+fit &lt;- lm(dist ~ speed, data = cars)
+fit
+## 
+## Call:
+## lm(formula = dist ~ speed, data = cars)
+## 
+## Coefficients:
+## (Intercept)        speed  
+##     -17.579        3.932</code></pre>
+</div>
+<div id="including-plots" class="section level1">
+<h1>Including Plots</h1>
+<p>You can also embed plots. See Figure <a href="#fig:pie">1</a> for example:</p>
+<pre class="r"><code>par(mar = c(0, 1, 0, 1))
+pie(
+  c(280, 60, 20),
+  c(&#39;Sky&#39;, &#39;Sunny side of pyramid&#39;, &#39;Shady side of pyramid&#39;),
+  col = c(&#39;#0292D8&#39;, &#39;#F7EA39&#39;, &#39;#C4B632&#39;),
+  init.angle = -50, border = NA
+)</code></pre>
+<div class="figure"><span style="display:block;" id="fig:pie"></span>
+<img src="https://bryantchen.netlify.com/blog/2022-01-02-r-rmarkdown/index_files/figure-html/pie-1.png" alt="A fancy pie chart." width="672" />
+<p class="caption">
+Figure 1: A fancy pie chart.
+</p>
+</div>
+</div>
 
   </div>
 </section>
@@ -85,11 +121,11 @@
       TAGS:
       
       
-      <a class="meta" href="/tags/belson">BELSON</a>, 
+      <a class="meta" href="/tags/plot">PLOT</a>, 
       
-      <a class="meta" href="/tags/gavin">GAVIN</a>, 
+      <a class="meta" href="/tags/r-markdown">R MARKDOWN</a>, 
       
-      <a class="meta" href="/tags/hooli">HOOLI</a>
+      <a class="meta" href="/tags/regression">REGRESSION</a>
       
       
       
@@ -101,10 +137,33 @@
 
 
 
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "https-shenoybr-github-io-hugo-goa-demo" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
 <section id="menu-pane" class="menu text-center">
   
   
-  <span><a class="menu-item" href="https://bryantchen.netlify.com/blog/first/">&lt; prev | </a></span>
+  <span><a class="menu-item" href="https://bryantchen.netlify.com/blog/third/">&lt; prev | </a></span>
   
   
   <span><a class="menu-item" href="/blog">blog</a></span>
