@@ -2,16 +2,49 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://bryantchen.netlify.com/tags/belson/</loc>
-    <lastmod>2016-10-03T16:59:13-04:00</lastmod>
-  </url><url>
     <loc>https://bryantchen.netlify.com/blog/</loc>
-    <lastmod>2016-10-03T16:59:13-04:00</lastmod>
+    <lastmod>2022-01-02T21:13:14-05:00</lastmod>
   </url><url>
     <loc>https://bryantchen.netlify.com/</loc>
-    <lastmod>2016-10-03T16:59:13-04:00</lastmod>
+    <lastmod>2022-01-02T21:13:14-05:00</lastmod>
   </url><url>
     <loc>https://bryantchen.netlify.com/categories/</loc>
+    <lastmod>2022-01-02T21:13:14-05:00</lastmod>
+  </url><url>
+    <loc>https://bryantchen.netlify.com/blog/2022-01-02-r-rmarkdown/</loc>
+    <lastmod>2022-01-02T21:13:14-05:00</lastmod>
+  </url><url>
+    <loc>https://bryantchen.netlify.com/tags/plot/</loc>
+    <lastmod>2022-01-02T21:13:14-05:00</lastmod>
+  </url><url>
+    <loc>https://bryantchen.netlify.com/categories/r/</loc>
+    <lastmod>2022-01-02T21:13:14-05:00</lastmod>
+  </url><url>
+    <loc>https://bryantchen.netlify.com/tags/r-markdown/</loc>
+    <lastmod>2022-01-02T21:13:14-05:00</lastmod>
+  </url><url>
+    <loc>https://bryantchen.netlify.com/tags/regression/</loc>
+    <lastmod>2022-01-02T21:13:14-05:00</lastmod>
+  </url><url>
+    <loc>https://bryantchen.netlify.com/tags/</loc>
+    <lastmod>2022-01-02T21:13:14-05:00</lastmod>
+  </url><url>
+    <loc>https://bryantchen.netlify.com/categories/mathematical-statistics/</loc>
+    <lastmod>2022-01-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://bryantchen.netlify.com/tags/nonparametric/</loc>
+    <lastmod>2022-01-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://bryantchen.netlify.com/blog/nonparametric-tolerance-intervals/</loc>
+    <lastmod>2022-01-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://bryantchen.netlify.com/tags/simulation/</loc>
+    <lastmod>2022-01-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://bryantchen.netlify.com/tags/tolerance/</loc>
+    <lastmod>2022-01-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://bryantchen.netlify.com/tags/belson/</loc>
     <lastmod>2016-10-03T16:59:13-04:00</lastmod>
   </url><url>
     <loc>https://bryantchen.netlify.com/tags/gavin/</loc>
@@ -24,9 +57,6 @@
     <lastmod>2016-10-03T16:59:13-04:00</lastmod>
   </url><url>
     <loc>https://bryantchen.netlify.com/categories/propaganda/</loc>
-    <lastmod>2016-10-03T16:59:13-04:00</lastmod>
-  </url><url>
-    <loc>https://bryantchen.netlify.com/tags/</loc>
     <lastmod>2016-10-03T16:59:13-04:00</lastmod>
   </url><url>
     <loc>https://bryantchen.netlify.com/about/</loc>
@@ -67,7 +97,5 @@
   </url><url>
     <loc>https://bryantchen.netlify.com/tags/ceo/</loc>
     <lastmod>2016-10-01T16:59:13-04:00</lastmod>
-  </url><url>
-    <loc>https://bryantchen.netlify.com/blog/nonparametric-tolerance-intervals/</loc>
   </url>
 </urlset>

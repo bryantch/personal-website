@@ -47,7 +47,16 @@
   
   <div class="col-md-12">
     <h6 class="text-left meta">
-       
+        PUBLISHED ON JAN 2, 2022 
+      
+      
+      
+      —
+      
+      
+      <a class="meta" href="/categories/mathematical-statistics">MATHEMATICAL STATISTICS</a>
+      
+      
       
     </h6>
   </div>
@@ -114,10 +123,10 @@ hist(our_sample)
 
 tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = &quot;WILKS&quot;)</code></pre>
 <pre><code>##   alpha   P 2-sided.lower 2-sided.upper
-## 1   0.1 0.9      9.886251      49.16669</code></pre>
+## 1   0.1 0.9       9.74754      40.97763</code></pre>
 <pre class="r"><code>tolerance::normtol.int(our_sample, alpha = .10,P = .10,side = 2,method = &quot;HE&quot;)</code></pre>
 <pre><code>##   alpha   P    x.bar 2-sided.lower 2-sided.upper
-## 1   0.1 0.1 25.31515      23.83416      26.79614</code></pre>
+## 1   0.1 0.1 23.60431      22.58449      24.62413</code></pre>
 <pre class="r"><code>n = 1000 # of iterations
 intervals = matrix(data = NA, nrow = n, ncol = 3)
 bad_intervals = matrix(data = NA, nrow = n, ncol = 3) # showing what happens if you assume the wrong distribution
@@ -145,9 +154,9 @@ for (i in 1:n){
 
 #intervals
 sum(results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.967</code></pre>
+<pre><code>## [1] 0.974</code></pre>
 <pre class="r"><code>sum(bad_results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.534</code></pre>
+<pre><code>## [1] 0.64</code></pre>
 <pre class="r"><code># Number of samples vs. confidence lvl vs. population coverage
 
 ss = c(seq(40,120,by = 10))
@@ -197,6 +206,19 @@ cl</code></pre>
   <div class="col-md-12">
     <h6 class="text-right meta">
       
+      
+      
+      TAGS:
+      
+      
+      <a class="meta" href="/tags/nonparametric">NONPARAMETRIC</a>, 
+      
+      <a class="meta" href="/tags/simulation">SIMULATION</a>, 
+      
+      <a class="meta" href="/tags/tolerance">TOLERANCE</a>
+      
+      
+      
     </h6>
   </div>
   
@@ -231,11 +253,13 @@ cl</code></pre>
 <section id="menu-pane" class="menu text-center">
   
   
+  <span><a class="menu-item" href="https://bryantchen.netlify.com/blog/third/">&lt; prev | </a></span>
+  
   
   <span><a class="menu-item" href="/blog">blog</a></span>
   
   
-  <span><a class="menu-item" href="https://bryantchen.netlify.com/blog/second/"> | next &gt;</a></span>
+  <span><a class="menu-item" href="https://bryantchen.netlify.com/blog/2022-01-02-r-rmarkdown/"> | next &gt;</a></span>
   
   
   <h4 class="text-center"><a class="menu-item" href="https://bryantchen.netlify.com/">home</a></h4>

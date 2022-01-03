@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Simulation on Bryant Chen</title>
+    <link>https://bryantchen.netlify.com/tags/simulation/</link>
+    <description>Recent content in Simulation on Bryant Chen</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sun, 02 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://bryantchen.netlify.com/tags/simulation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nonparametric Tolerance Intervals - Part I</title>
+      <link>https://bryantchen.netlify.com/blog/nonparametric-tolerance-intervals/</link>
+      <pubDate>Sun, 02 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://bryantchen.netlify.com/blog/nonparametric-tolerance-intervals/</guid>
+      <description>Introduction
+This first post is going to be about a method of constructing Nonparametric Tolerance Intervals with a focus on it’s derivation, simulation and application to real data. In particular, Wilk’s method for determining the limits based on order statistics, is covered here.
+First, what is a tolerance interval? A tolerance interval is different from the familiar confidence interval and even a prediction interval in that a tolerance interval</description>
+    </item>
+    
+  </channel>
+</rss>

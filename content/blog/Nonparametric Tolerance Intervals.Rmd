@@ -1,7 +1,10 @@
 ---
 title: "Nonparametric Tolerance Intervals - Part I"
 author: "Bryant Chen"
-date: "8/25/2021"
+date: 2022-01-02
+categories: ["Mathematical Statistics"]
+tags: ["Simulation", "Nonparametric", "Tolerance"]
+description: A method for constructing a nonparametric tolerance interval.
 output:
   pdf_document: default
   html_document: default

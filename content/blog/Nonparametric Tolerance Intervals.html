@@ -1,7 +1,10 @@
 ---
 title: "Nonparametric Tolerance Intervals - Part I"
 author: "Bryant Chen"
-date: "8/25/2021"
+date: 2022-01-02
+categories: ["Mathematical Statistics"]
+tags: ["Simulation", "Nonparametric", "Tolerance"]
+description: A method for constructing a nonparametric tolerance interval.
 output:
   pdf_document: default
   html_document: default
@@ -62,10 +65,10 @@ hist(our_sample)
 
 tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = &quot;WILKS&quot;)</code></pre>
 <pre><code>##   alpha   P 2-sided.lower 2-sided.upper
-## 1   0.1 0.9      9.886251      49.16669</code></pre>
+## 1   0.1 0.9       9.39607      32.41164</code></pre>
 <pre class="r"><code>tolerance::normtol.int(our_sample, alpha = .10,P = .10,side = 2,method = &quot;HE&quot;)</code></pre>
 <pre><code>##   alpha   P    x.bar 2-sided.lower 2-sided.upper
-## 1   0.1 0.1 25.31515      23.83416      26.79614</code></pre>
+## 1   0.1 0.1 22.49472      21.64865       23.3408</code></pre>
 <pre class="r"><code>n = 1000 # of iterations
 intervals = matrix(data = NA, nrow = n, ncol = 3)
 bad_intervals = matrix(data = NA, nrow = n, ncol = 3) # showing what happens if you assume the wrong distribution
@@ -93,9 +96,9 @@ for (i in 1:n){
 
 #intervals
 sum(results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.967</code></pre>
+<pre><code>## [1] 0.98</code></pre>
 <pre class="r"><code>sum(bad_results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.534</code></pre>
+<pre><code>## [1] 0.629</code></pre>
 <pre class="r"><code># Number of samples vs. confidence lvl vs. population coverage
 
 ss = c(seq(40,120,by = 10))
