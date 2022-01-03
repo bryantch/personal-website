@@ -1,0 +1,160 @@
+---
+title: "Nonparametric Tolerance Intervals - Part I"
+author: "Bryant Chen"
+date: "8/25/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+**Introduction**
+
+This first post is going to be about a method of constructing Nonparametric Tolerance Intervals with a focus on it's derivation, simulation and application to real data. In particular, Wilk's method for determining the limits based on order statistics, is covered here. 
+
+First, what is a tolerance interval? A tolerance interval is different from the familiar confidence interval and even a prediction interval in that a tolerance interval 
+
+
+It is assumed that the reader is familiar with mathematical statistics when it comes to the derivation section.
+
+
+devise one-sided tolerance limits
+, similar to confidence limits
+
+
+In other words,
+
+**Derivation**
+
+Suppose we have a sequence of random variables that follow some probability distribution - 
+
+$$X_1,X_2,...,X_n \sim f(x)$$ where $f(x)$ is unknown and - 
+$$X_{(1)},X_{(2)},...,X_{(n)}$$ are the order statistics while $x_{(1)},x_{(2)},...,x_{(n)}$ is the ordered sample.
+
+For a two-sided tolerance interval, we want an interval for some population, $p$ and confidence level, $1-a$, such that - 
+
+$$P \left[ \Bigl\{ P[X \leq LL] \leq \frac{(1-p)}{2} \Bigr\} \cap \Bigl\{P[X \geq UL] \leq \frac{(1-p)}{2} \Bigr\} \right]= 1-a $$
+We define $LL$ and $UL$ to be the values of the order statistics that satisfies $(F_X(UL) - F_X(LL)) \geq p$. So that means we need to find ranks, $d$ and $c$, such that $F(X_{(d)}) - F(X_{(c)}) \geq p$ which is equivalent to the following - 
+
+$$F(X_{(d)}) - F(X_{(c)}) \geq p \leftrightarrow \left[1 - \int_{X_{(c)}}^{X_{(d)}} f(x) dx \geq p \right]$$ where $F$ is the cumulative distribution function of the unknown population. We set $W = F(X_{(d)}) - F(X_{(c)})$ so $W$ is a random variable.
+
+It can be shown that the $kth$ smallest order statistic follows a Beta Distribution, $Beta(\alpha,\beta)$, with $\alpha = k$ and $\beta = n - k + 1$.
+
+$$X_{(k)} \sim Beta(k,n-k+1)$$
+$$c = r$$
+$$d = n-r+1$$
+$$d-c = n - r+1-r = n-2r+1 = a$$
+$$n-(n-2r+1)+1 = n-n+2r-1+1 = 2r = b$$
+$$\rightarrow X_{(d-c)} \sim Beta(a = n-2r+1, b = 2r)$$
+So since $W$ is a function of the range between the order statistics with ranks $d$ and $c$, we can say $W \sim Beta(d-c,n-d+c+1)$.
+
+$$\rightarrow P[W \geq p] = 1-\alpha \leftrightarrow P[W \leq p] = \alpha$$
+$$\leftrightarrow P[Beta(d - c,n-d + c +1) \leq p] = \alpha$$
+Note: No distribution about the population is assumed but the Beta distribution used here, arises due to being able to characterize an order statistic's distribution with the Beta distribution so it is independent of the population's distribution. Order statistics are central to nonparametric methods and are utilized often
+
+
+
+We can simplify this a bit by assuming symmetry of the ranks from their endpoints. For example, if $n = 65$ then $x_{(2)}$ and $x_{(64)},x_{(3)},...,x_{(k)}$ and $x_{(n-k+1)}$ are symmetric with each other in ranks.
+
+To do this, we take $c = r$ and $d = n-r+1$ so that we end up with -
+
+$$P[Beta(d-c,n-d+c+1) \leq p] = \alpha \rightarrow P[Beta(n-2r+1,2r) \leq p] = \alpha$$
+From here, we simply use the cumulative distribution function (CDF) of the Beta distribution which is the regularized incomplete beta function, $I_x(a,b)$, to find the ranks of our sorted data that ensures the CDF at $p$ evaluates to $\alpha$ so that we can take the complement of this which would give us our confidence level, $1-\alpha$.
+
+The regularized incomplete beta function, evaluated at the ranks is - 
+
+$$I_p(n-2r+1,2r) = \frac{\int_0^{p} t^{n-2r+1-1}(1-t)^{2r-1}dt}{\int_0^{1} t^{n-2r+1-1}(1-t)^{2r-1}dt}$$
+
+If $r = 1$ then this simplifies to - 
+
+$$\frac{\int_0^{p} t^{n-2r+1-1}(1-t)^{2r-1}dt}{\int_0^{1} t^{n-2r+1-1}(1-t)^{2r-1}dt} = \frac{\frac{np^{(n-1)} + p^n(n-1)}{(n-1)n}}{\frac{1}{(n-1)n}} = np^{(n-1)}+p^n(n-1)$$
+$$\leftrightarrow 1-np^{(n-1)} + p^n(n-1) = 1-\alpha$$
+If $r \ne 1$, meaning we do not want to use the smallest and largest sample values for coverage but instead the 2nd smallest and largest or 3rd smallest and largest, etc. then this is the generalized case for that. It is analytically difficult to solve so numerical methods are most likely required. That said, this is not required if we inted to use the smallest and largest values of our sample for bounding the population no matter how large our sample size is. However, by closely examining this expression, we can see that more samples would be required to bound the population using higher order ranks in order to achieve the same level of confidence using the minimum and maximum of the sample.
+
+$$1 - \frac{\int_0^p t^{n-2r}(1-t)^{2r-1}dt}{\int_0^1 t^{n-2r}(1-t)^{2r-1}dt} = 1 - \alpha$$
+This method has been verified via simulation with various mockup populations to demonstrate that, indeed, $1-\alpha %$ of intervals computed under this method contains at least the specified proportion of the population, regardless of the population's distribution which we showcase in the next section.
+
+*Sample Size Formulation*
+We now have a sample size formula to determine the number of samples to gather that will bound the population within at least a proportion, $p$, with a level of confidence, $1-\alpha$ when using the smallest and largest sample values. Simply iterate through $n$ for a desired proportion coverage until the level of confidence is achieved.
+
+$$1 - np^{(n-1)} + p^n(n-1) = 1 - \alpha$$
+**Simulation**
+
+```{r}
+library(tolerance)
+
+population = c(rnorm(500,mean = 25,sd = 2),rlnorm(500,meanlog = 3,sdlog = sqrt(.25))) # fake population
+hist(population)
+
+our_sample = sample(x = population,size = 65,replace = FALSE)
+hist(our_sample)
+
+tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = "WILKS")
+tolerance::normtol.int(our_sample, alpha = .10,P = .10,side = 2,method = "HE")
+
+n = 1000 # of iterations
+intervals = matrix(data = NA, nrow = n, ncol = 3)
+bad_intervals = matrix(data = NA, nrow = n, ncol = 3) # showing what happens if you assume the wrong distribution
+results = c()
+bad_results = c()
+
+for (i in 1:n){
+  our_sample = sample(population,size = 65,replace = FALSE)
+  intervals[i,1] = nptol.int(our_sample,alpha = .03,P = .92,side = 2,method = "WILKS")[3]$'2-sided.lower'
+  intervals[i,2] = nptol.int(our_sample,alpha = .03,P = .92,side = 2,method = "WILKS")[4]$'2-sided.upper'
+  intervals[i,3] = length(population[population <= intervals[i,2]])/1000 - length(population[population <= intervals[i,1]])/1000
+  
+  bad_intervals[i,1] = normtol.int(x = our_sample,alpha = .10,P = .9,side = 2,method = "HE")$'2-sided.lower'
+  bad_intervals[i,2] = normtol.int(x = our_sample,alpha = .10,P = .9,side = 2,method = "HE")$'2-sided.upper'
+  bad_intervals[i,3] = length(population[population <= bad_intervals[i,2]])/1000 - length(population[population <= bad_intervals[i,1]])/1000
+  
+  if(intervals[i,3] < .92){
+    results[i] = FALSE
+  } else (results[i] = TRUE)
+  
+  if(bad_intervals[i,3] < .92){
+    bad_results[i] = FALSE
+  } else (bad_results[i] = TRUE)
+}
+
+#intervals
+sum(results)/n # confidence level
+sum(bad_results)/n # confidence level
+
+# Number of samples vs. confidence lvl vs. population coverage
+
+ss = c(seq(40,120,by = 10))
+pc = c(seq(.80,.99,by = .03))
+cl = c()
+
+cl = matrix(data = NA, nrow = length(ss),ncol = length(pc))
+for(i in 1:length(ss)){
+  for (j in 1:length(pc)){
+    cl[i,j] = 1-ss[i]*pc[j]^(ss[i]-1) + (pc[j]^ss[i])*(ss[i]-1)
+  }
+}
+
+row.names(cl) = ss
+colnames(cl) = pc
+cl
+
+library(lattice)
+
+wireframe(cl,
+          zlab = '1-a',
+          xlab = 'n',
+          ylab = 'p', scales = list(arrows = FALSE),
+          drape = TRUE, colorkey = TRUE, main = "Confidence Level vs. Population Coverage vs. Sample Size")
+
+```
+
+**Example Application**
+
+```{r}
+
+```
+
+**References**
+
+1. Wilk's Formula Applied to Computational Tools: A Practical Discussion and Verification
+2. 
+3. 

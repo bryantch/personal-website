@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Bryant Chen</title>
+    <link>https://bryantchen.netlify.com/categories/</link>
+    <description>Recent content in Categories on Bryant Chen</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Tue, 01 Dec 2020 21:13:14 -0500</lastBuildDate><atom:link href="https://bryantchen.netlify.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>R</title>
+      <link>https://bryantchen.netlify.com/categories/r/</link>
+      <pubDate>Tue, 01 Dec 2020 21:13:14 -0500</pubDate>
+      
+      <guid>https://bryantchen.netlify.com/categories/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>propaganda</title>
+      <link>https://bryantchen.netlify.com/categories/propaganda/</link>
+      <pubDate>Mon, 03 Oct 2016 16:59:13 -0400</pubDate>
+      
+      <guid>https://bryantchen.netlify.com/categories/propaganda/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>about</title>
+      <link>https://bryantchen.netlify.com/categories/about/</link>
+      <pubDate>Sun, 02 Oct 2016 22:55:05 -0400</pubDate>
+      
+      <guid>https://bryantchen.netlify.com/categories/about/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>articles</title>
+      <link>https://bryantchen.netlify.com/categories/articles/</link>
+      <pubDate>Sun, 02 Oct 2016 22:55:05 -0400</pubDate>
+      
+      <guid>https://bryantchen.netlify.com/categories/articles/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ad</title>
+      <link>https://bryantchen.netlify.com/categories/ad/</link>
+      <pubDate>Sun, 02 Oct 2016 15:59:13 -0400</pubDate>
+      
+      <guid>https://bryantchen.netlify.com/categories/ad/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,43 @@
+---
+title: "Nonparametric Tolerance Intervals"
+author: "Bryant Chen"
+date: '2021-06-15T21:13:14-05:00'
+output:
+  html_document:
+    df_print: paged
+tags:
+- tolerance intervals
+- r
+- nonparametric
+- simulation
+- statistics
+categories: Mathematical Statistics
+---
+
+**Introduction**
+
+This first post is going to be about a method of constructing Nonparametric Tolerance Intervals with a focus on it's derivation, simulation and application to real data. In particular, 
+
+
+It is assumed that
+for the reader
+
+familiar with and understand
+mathematical statistics
+
+
+**Derivation**
+
+$$X_1,X_2,...,X_n \sim f(x)$$ where $f(x)$ is unknown
+$$X_{(1)},X_{(2)},...,X_{(n)}$$ are the order statistics while $x_{(1)},x_{(2)},...,x_{(n)}$ is the ordered sample
+For a two-sided tolerance interval, we want an interval for some population, $p$ and confidence level, $1-a$, such that - 
+
+$$P \left[ \Bigl\{ P[X \leq LL] \leq \frac{(1-p)}{2} \Bigr\} \cap \Bigl\{P[X \geq UL] \leq \frac{(1-p)}{2} \Bigr\} \right]= 1-a $$
+We define $LL$ and $UL$ to be the values of the order statistics that satisfies $(F_X(UL) - F_X(LL)) \geq p$. So that means we need to find ranks, $d$ and $c$, such that $F(X_{(d)}) - F(X_{(c)}) \geq p$ which is equivalent to 
+
+
+
+
+**Simulation**
+
+**Example Application**

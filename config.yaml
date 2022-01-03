@@ -1,0 +1,55 @@
+baseurl: https://bryantchen.netlify.com/
+builddrafts: no
+canonifyurls: no
+languageCode: en-US
+contentdir: content
+layoutdir: layouts
+publishdir: public
+author: Bryant Chen
+title: Bryant Chen
+theme: hugo-goa
+disqusShortname: https-shenoybr-github-io-hugo-goa-demo
+googleAnalytics: XYZ
+enableRobotsTXT: yes
+params:
+  author: Bryant Chen
+  authorimage: "profile 4.jpg"
+  dateformat: Jan 2, 2006
+  description: I am a Statistician interested in working within the FinTech, BioTech, and GreenTech industries to create utility and make the world a better place.
+  extra:
+    copyright: © 2021. Bryant Chen. [Some Rights Reserved](http://creativecommons.org/licenses/by/3.0/).
+    displayrssicon: yes
+    highlightjs: yes
+    poweredby: yes
+    socialmarkup: yes
+    toc: yes
+  intro: Statistician/Data Scientist
+  meta:
+    description: Simple minimalist theme
+    keywords: minimalist,blog,goa,hugo,developer
+  social:
+    email: bryantch@buffalo.edu
+    github: <username>
+    instagram: <username>
+    linkedin: <bryantch>
+    strava: <username>
+    
+menu:
+  main:
+    - identifier: blog
+      name: blog
+      url: /blog/
+      weight: 100
+    - identifier: about
+      name: about
+      url: /about/
+      weight: 200
+    - identifier: resume
+      name: resume
+      url: /Resume_Bryant Chen.pdf
+      weight: 300
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>about on Bryant Chen</title>
+    <link>https://bryantchen.netlify.com/categories/about/</link>
+    <description>Recent content in about on Bryant Chen</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sun, 02 Oct 2016 22:55:05 -0400</lastBuildDate><atom:link href="https://bryantchen.netlify.com/categories/about/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>https://bryantchen.netlify.com/about/</link>
+      <pubDate>Sun, 02 Oct 2016 22:55:05 -0400</pubDate>
+      
+      <guid>https://bryantchen.netlify.com/about/</guid>
+      <description>I am a native New Yorker living in Salt Lake City, Utah. I graduated from the University of Buffalo where I majored in Industrial Engineering and Mathematics and minored in Statistics.
+I currently work as a Statistician and have in the past, been a part-time Statistics Assistant at the University of Utah Marriott Library. At the same time, I am working on an MS in Statistics at California State University, Fullerton and an MS in Finance at the University of Utah.</description>
+    </item>
+    
+  </channel>
+</rss>
