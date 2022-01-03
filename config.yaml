@@ -16,7 +16,7 @@ params:
   author: Bryant Chen
   authorimage: "profile 4.jpg"
   dateformat: Jan 2, 2006
-  description: This site is dedicated to sharing my personal thoughts and professional work in Statistics.
+  description: This site is dedicated to sharing topics related to some of my professional work in Statistics along with personal thoughts and future creative projects.
   extra:
     copyright: © 2021. Bryant Chen. [Some Rights Reserved](http://creativecommons.org/licenses/by/3.0/).
     displayrssicon: yes
