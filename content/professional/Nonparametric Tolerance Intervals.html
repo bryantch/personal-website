@@ -59,16 +59,16 @@ We now have a sample size formula to determine the number of samples to gather t
 
 population = c(rnorm(500,mean = 25,sd = 2),rlnorm(500,meanlog = 3,sdlog = sqrt(.25))) # fake population
 hist(population)</code></pre>
-<p><img src="/blog/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><img src="/professional/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <pre class="r"><code>our_sample = sample(x = population,size = 65,replace = FALSE)
 hist(our_sample)
 
 tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = &quot;WILKS&quot;)</code></pre>
 <pre><code>##   alpha   P 2-sided.lower 2-sided.upper
-## 1   0.1 0.9       9.39607      32.41164</code></pre>
+## 1   0.1 0.9      5.497157      41.33802</code></pre>
 <pre class="r"><code>tolerance::normtol.int(our_sample, alpha = .10,P = .10,side = 2,method = &quot;HE&quot;)</code></pre>
-<pre><code>##   alpha   P    x.bar 2-sided.lower 2-sided.upper
-## 1   0.1 0.1 22.49472      21.64865       23.3408</code></pre>
+<pre><code>##   alpha   P   x.bar 2-sided.lower 2-sided.upper
+## 1   0.1 0.1 23.0765      21.94467      24.20832</code></pre>
 <pre class="r"><code>n = 1000 # of iterations
 intervals = matrix(data = NA, nrow = n, ncol = 3)
 bad_intervals = matrix(data = NA, nrow = n, ncol = 3) # showing what happens if you assume the wrong distribution
@@ -96,9 +96,9 @@ for (i in 1:n){
 
 #intervals
 sum(results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.98</code></pre>
+<pre><code>## [1] 0.975</code></pre>
 <pre class="r"><code>sum(bad_results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.629</code></pre>
+<pre><code>## [1] 0.522</code></pre>
 <pre class="r"><code># Number of samples vs. confidence lvl vs. population coverage
 
 ss = c(seq(40,120,by = 10))
@@ -126,13 +126,13 @@ cl</code></pre>
 ## 110 1.0000000 1.0000000 0.9999988 0.9999605 0.9989022 0.9759324 0.6483834
 ## 120 1.0000000 1.0000000 0.9999997 0.9999866 0.9994839 0.9844728 0.6946347</code></pre>
 <pre class="r"><code>library(lattice)</code></pre>
-<p><img src="/blog/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
+<p><img src="/professional/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
 <pre class="r"><code>wireframe(cl,
           zlab = &#39;1-a&#39;,
           xlab = &#39;n&#39;,
           ylab = &#39;p&#39;, scales = list(arrows = FALSE),
           drape = TRUE, colorkey = TRUE, main = &quot;Confidence Level vs. Population Coverage vs. Sample Size&quot;)</code></pre>
-<p><img src="/blog/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
+<p><img src="/professional/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
 <p><strong>Example Application</strong></p>
 <p><strong>References</strong></p>
 <ol style="list-style-type: decimal">

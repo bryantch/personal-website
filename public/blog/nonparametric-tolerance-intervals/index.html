@@ -123,10 +123,10 @@ hist(our_sample)
 
 tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = &quot;WILKS&quot;)</code></pre>
 <pre><code>##   alpha   P 2-sided.lower 2-sided.upper
-## 1   0.1 0.9       9.74754      40.97763</code></pre>
+## 1   0.1 0.9       9.39607      32.41164</code></pre>
 <pre class="r"><code>tolerance::normtol.int(our_sample, alpha = .10,P = .10,side = 2,method = &quot;HE&quot;)</code></pre>
 <pre><code>##   alpha   P    x.bar 2-sided.lower 2-sided.upper
-## 1   0.1 0.1 23.60431      22.58449      24.62413</code></pre>
+## 1   0.1 0.1 22.49472      21.64865       23.3408</code></pre>
 <pre class="r"><code>n = 1000 # of iterations
 intervals = matrix(data = NA, nrow = n, ncol = 3)
 bad_intervals = matrix(data = NA, nrow = n, ncol = 3) # showing what happens if you assume the wrong distribution
@@ -154,9 +154,9 @@ for (i in 1:n){
 
 #intervals
 sum(results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.974</code></pre>
+<pre><code>## [1] 0.98</code></pre>
 <pre class="r"><code>sum(bad_results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.64</code></pre>
+<pre><code>## [1] 0.629</code></pre>
 <pre class="r"><code># Number of samples vs. confidence lvl vs. population coverage
 
 ss = c(seq(40,120,by = 10))
@@ -252,8 +252,6 @@ cl</code></pre>
 
 <section id="menu-pane" class="menu text-center">
   
-  
-  <span><a class="menu-item" href="https://bryantchen.netlify.com/blog/third/">&lt; prev | </a></span>
   
   
   <span><a class="menu-item" href="/blog">blog</a></span>

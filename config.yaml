@@ -36,18 +36,22 @@ params:
     
 menu:
   main:
-    - identifier: blog
-      name: blog
-      url: /blog/
+    - identifier: professional
+      name: professional
+      url: /professional/
       weight: 100
+    - identifier: personal
+      name: personal
+      url: /Resume_Bryant Chen.pdf
+      weight: 200
     - identifier: about
       name: about
       url: /about/
-      weight: 200
+      weight: 300
     - identifier: resume
       name: resume
       url: /Resume_Bryant Chen.pdf
-      weight: 300
+      weight: 400
 
 markup:
   goldmark:
