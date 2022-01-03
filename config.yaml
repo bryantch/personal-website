@@ -16,7 +16,7 @@ params:
   author: Bryant Chen
   authorimage: "profile 4.jpg"
   dateformat: Jan 2, 2006
-  description: I am a Statistician interested in working within the FinTech, BioTech, and GreenTech industries to create utility and make the world a better place.
+  description: This website is for sharing my personal thoughts and professional work in statistics.
   extra:
     copyright: © 2021. Bryant Chen. [Some Rights Reserved](http://creativecommons.org/licenses/by/3.0/).
     displayrssicon: yes
