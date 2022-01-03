@@ -5,6 +5,7 @@ languageCode: en-US
 contentdir: content
 layoutdir: layouts
 publishdir: public
+math: true
 author: Bryant Chen
 title: Bryant Chen
 theme: hugo-goa

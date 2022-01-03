@@ -123,10 +123,10 @@ hist(our_sample)
 
 tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = &quot;WILKS&quot;)</code></pre>
 <pre><code>##   alpha   P 2-sided.lower 2-sided.upper
-## 1   0.1 0.9      5.497157      41.33802</code></pre>
+## 1   0.1 0.9      6.804904      43.13753</code></pre>
 <pre class="r"><code>tolerance::normtol.int(our_sample, alpha = .10,P = .10,side = 2,method = &quot;HE&quot;)</code></pre>
-<pre><code>##   alpha   P   x.bar 2-sided.lower 2-sided.upper
-## 1   0.1 0.1 23.0765      21.94467      24.20832</code></pre>
+<pre><code>##   alpha   P    x.bar 2-sided.lower 2-sided.upper
+## 1   0.1 0.1 24.02395      22.64489      25.40302</code></pre>
 <pre class="r"><code>n = 1000 # of iterations
 intervals = matrix(data = NA, nrow = n, ncol = 3)
 bad_intervals = matrix(data = NA, nrow = n, ncol = 3) # showing what happens if you assume the wrong distribution
@@ -154,9 +154,9 @@ for (i in 1:n){
 
 #intervals
 sum(results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.975</code></pre>
+<pre><code>## [1] 0.978</code></pre>
 <pre class="r"><code>sum(bad_results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.522</code></pre>
+<pre><code>## [1] 0.594</code></pre>
 <pre class="r"><code># Number of samples vs. confidence lvl vs. population coverage
 
 ss = c(seq(40,120,by = 10))
@@ -307,6 +307,11 @@ if (!doNotTrack) {
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script src="/js/main.js"></script>
 <script src="/js/custom.js"></script>
+
+<script src="//yihui.name/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
 </body>
 </html>
 
