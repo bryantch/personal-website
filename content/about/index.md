@@ -13,9 +13,9 @@ title: About
 
 I am a native New Yorker living in Salt Lake City, Utah. I graduated from the University of Buffalo where I majored in Industrial Engineering and Mathematics and minored in Statistics. 
 
-I currently work as a Statistician and have in the past, been a part-time Statistics Assistant at the University of Utah Marriott Library. At the same time, I am working on an MS in Statistics at California State University, Fullerton and an MS in Finance at the University of Utah. 
+I currently work as a Statistician and have in the past, been a part-time Statistics Assistant for the Marriott Library at the University of Utah. At the same time, I am working on an MS in Statistics at California State University, Fullerton and an MS in Finance at the University of Utah. 
 
-Besides chilling with my cat, Marty, my hobbies include hiking, road cycling, yoga and backpacking whenever I can. I like trying new things, going to new places and just challenging myself.
+Besides chilling with my cat, Marty, my hobbies include hiking, road cycling, yoga and backpacking whenever I can. I like trying new things, going to new places and just challenging myself in general.
 
-Areas of Statistics I am mainly interested in include Asymptotic Theory, Computational Statistics, Causality and Sampling Methodology.
+Areas of Statistics I am mainly interested in include Asymptotic Theory, Computational Statistics, Causal Inference and Sampling Methodology.
 
