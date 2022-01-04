@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Simulation on Bryant Chen</title>
-    <link>https://bryantchen.netlify.com/tags/simulation/</link>
-    <description>Recent content in Simulation on Bryant Chen</description>
+    <title>Bayesian on Bryant Chen</title>
+    <link>https://bryantchen.netlify.com/tags/bayesian/</link>
+    <description>Recent content in Bayesian on Bryant Chen</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 02 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://bryantchen.netlify.com/tags/simulation/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://bryantchen.netlify.com/tags/bayesian/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Bayesian Reliability Analysis</title>
       <link>https://bryantchen.netlify.com/professional/bayesian-reliability-analysis/</link>
@@ -17,17 +17,6 @@
 \[\pi_s \sim \prod_{c=1}^k \pi_c; \quad \pi_c \sim Beta(a_c,b_c)\] where \(s\) and \(c\) denote system and component, respectively.
 \[\hat{\pi_c} = \frac{n_c - x_c}{n_c}\] Biasedness of this estimator -
 \[E[\hat{\pi_c}] = \frac{n_c - x_c}{n_c} = \frac{E[n_c] - E[x_c]}{n_c} = \frac{n_c}{n_c} - \frac{n_c - x}{(n_c + 1)n_c} = \frac{n^2_c(n_c + 1) - n_c(n_c - x)}{n^2_c(n_c + 1)}\] \[= \frac{n^3_c + n^2_c - n^2_c + n_cx_c}{n^2_c(n_c + 1)} = \frac{n^3_c + n_cx_c}{n^2_c(n_c + 1)} = \frac{n_c(n^2_c + x_c)}{n_c(n^2_c + n_c)} = \frac{n^2_c + x_c}{n^2_c + n_c}\]</description>
-    </item>
-    
-    <item>
-      <title>Nonparametric Tolerance Intervals - Part I</title>
-      <link>https://bryantchen.netlify.com/professional/nonparametric-tolerance-intervals/</link>
-      <pubDate>Sun, 02 Jan 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://bryantchen.netlify.com/professional/nonparametric-tolerance-intervals/</guid>
-      <description>Introduction
-This piece is going to be about a method of constructing Nonparametric Tolerance Intervals with a focus on it’s derivation, simulation and application to real data. In particular, Wilk’s method for determining the limits based on order statistics, is covered here.
-First, what is a tolerance interval? A tolerance interval is different from the familiar confidence interval and even a prediction interval in that a tolerance interval provides limits in which at least a certain proportion of the sampled population falls within with a specified level of confidence.</description>
     </item>
     
   </channel>

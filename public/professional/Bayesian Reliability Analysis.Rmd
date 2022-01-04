@@ -74,30 +74,3 @@ $$E[\pi_s^{(2)}] = E\left[\prod_{c=1}^k \pi_c^{(2)}\right] = \prod_{c=1}^k \frac
 $$Var[\pi_s] = E[\pi_s^{(2)}] - (E[\pi_s^{(1)}])^2 = E[\pi_s^{(1)]}]\prod_{c=1}^k\frac{n_c + 1}{n_c + 2} - (E[\pi_s^{(1)}])^2$$
 $$\rightarrow Var[\pi_s] = \prod_{c=1}^k \frac{n_c}{n_c + 1} \cdot\prod_{c=1}^k \frac{n_c + 1}{n_c + 2} - (\prod_{c=1}^k \frac{n_c}{n_c + 1})^2$$
 
-And for $x > 0$,
-
-
-$$E[\pi_s^{(1)}] = E\left[\prod_{c=1}^k \pi_c^{(1)}\right] = \prod_{c=1}^k \frac{n_c - x_c}{n_c + 1}$$
-$$E[\pi_s^{(2)}] = E\left[\prod_{c=1}^k \pi_c^{(2)}\right] = \prod_{c=1}^k \frac{n_c - x_c + 1}{n_c - x_c + x_c + 1 + 1}E[\pi_s^{(1)}] = E[\pi_s^{(1)}]\prod_{c=1}^k \frac{n_c - x_c + 1}{n_c + 2}$$
-$$Var[\pi_s] = E[\pi_s^{(2)}] - (E[\pi_s^{(1)}])^2 = E[\pi_s^{(1)]}]\prod_{c=1}^k\frac{n_c - x_c + 1}{n_c + 2} - (E[\pi_s^{(1)}])^2$$
-$$\rightarrow Var[\pi_s] = \prod_{c=1}^k \frac{n_c-x_c}{n_c + 1} \cdot\prod_{c=1}^k \frac{n_c - x_c + 1}{n_c + 2} - (\prod_{c=1}^k \frac{n_c - x_c}{n_c + 1})^2$$
-System reliabiltiy is approximated by a $Beta(a_s,b_s)$ distribution as a posterior distribution with parameters $a_s$ and $b_s$ with a mean and variance of - 
-
-$$\mu = \frac{a_s}{a_s + b_s}; \quad \sigma^2 = \frac{a_sb_s}{(a_s + b_s)^2(a_s + b_s + 1)}$$
-Rearranging for $a_s$ and $b_s$, we obtain - 
-
-$$b_s = \frac{\hat{\mu}(-\hat{\mu} + 1)^2}{\hat{\sigma^2}} + \hat{\mu} - 1; a_s = \frac{\hat{\mu}b}{1-\hat{\mu}}$$ where $$\hat{\mu} = \prod_{i=1}^c \frac{n_c - x_c}{n_c + 1}$$ and
-
-$$\hat{\sigma^2} = \hat{\mu}\prod_{c=1}^k \frac{n_c - x_c + 1}{n_c + 2} - \hat{\mu}^2$$
-
-The expression for the system parameter estimates uses the individual component test results to generate the system reliability's probability distribution. This is the general case above so it works for components with failures and components with no failures configured serially.
-
-**Simulation (Bootstrap)**
-
-Here is code I've written to obtain the standard error of system reliability based on component reliabilities via sampling/bootstrapping. It is also possible to bootstrap the power for sample size calculations - 
-
-
-**References**
-
-1. The Distribution of Products of Beta, Gamma and Gaussian Random Variables
-2. Reliability Estimation of One-Shot Systems with Zero Component Test Failures

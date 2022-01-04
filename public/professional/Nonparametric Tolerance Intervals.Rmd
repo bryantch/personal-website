@@ -2,8 +2,8 @@
 title: "Nonparametric Tolerance Intervals - Part I"
 author: "Bryant Chen"
 date: 2022-01-02
-categories: ["Mathematical Statistics"]
-tags: ["Simulation", "Nonparametric", "Tolerance"]
+categories: ["Blog"]
+tags: ["Simulation", "Nonparametric", "Tolerance","Mathematical Statistics","Order Statistics"]
 description: A method for constructing a nonparametric tolerance interval.
 output:
   pdf_document: default
@@ -12,9 +12,15 @@ output:
 
 **Introduction**
 
-This first post is going to be about a method of constructing Nonparametric Tolerance Intervals with a focus on it's derivation, simulation and application to real data. In particular, Wilk's method for determining the limits based on order statistics, is covered here. 
+This piece is going to be about a method of constructing Nonparametric Tolerance Intervals with a focus on it's derivation, simulation and application to real data. In particular, Wilk's method for determining the limits based on order statistics, is covered here. 
 
-First, what is a tolerance interval? A tolerance interval is different from the familiar confidence interval and even a prediction interval in that a tolerance interval 
+First, what is a tolerance interval? A tolerance interval is different from the familiar confidence interval and even a prediction interval in that a tolerance interval provides limits in which at least a certain proportion of the sampled population falls within with a specified level of confidence. Whereas confidence and prediction intervals are meant to bound a population parameter and a future sampled value, respectively, tolerance intervals bounds a range of values that make up a certain proportion of the population. Tolerance intervals are lesser known compared to the other two 
+
+
+rather than
+parameter
+
+value
 
 
 It is assumed that the reader is familiar with mathematical statistics when it comes to the derivation section.
@@ -22,7 +28,7 @@ It is assumed that the reader is familiar with mathematical statistics when it c
 
 devise one-sided tolerance limits
 , similar to confidence limits
-
+upper or lower
 
 In other words,
 

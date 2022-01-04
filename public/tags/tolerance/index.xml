@@ -14,8 +14,8 @@
       
       <guid>https://bryantchen.netlify.com/professional/nonparametric-tolerance-intervals/</guid>
       <description>Introduction
-This first post is going to be about a method of constructing Nonparametric Tolerance Intervals with a focus on it’s derivation, simulation and application to real data. In particular, Wilk’s method for determining the limits based on order statistics, is covered here.
-First, what is a tolerance interval? A tolerance interval is different from the familiar confidence interval and even a prediction interval in that a tolerance interval</description>
+This piece is going to be about a method of constructing Nonparametric Tolerance Intervals with a focus on it’s derivation, simulation and application to real data. In particular, Wilk’s method for determining the limits based on order statistics, is covered here.
+First, what is a tolerance interval? A tolerance interval is different from the familiar confidence interval and even a prediction interval in that a tolerance interval provides limits in which at least a certain proportion of the sampled population falls within with a specified level of confidence.</description>
     </item>
     
   </channel>

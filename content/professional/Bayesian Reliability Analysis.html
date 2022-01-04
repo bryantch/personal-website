@@ -52,3 +52,25 @@ Then -</p>
 Thus -</p>
 <p><span class="math display">\[Var[X] = E[X^{(2)}] - (E[X^{(1)}])^2 = \frac{a+1}{a+b+1}\cdot\frac{a}{a+b} - (\frac{a}{a+b})^2 = \frac{ab}{(a+b)^2(a+b+1)}\]</span>
 So for <span class="math inline">\(x = 0\)</span>,</p>
+<p><span class="math display">\[E[\pi_s^{(1)}] = E\left[\prod_{c=1}^k \pi_c^{(1)}\right] = \prod_{c=1}^k \frac{n_c}{n_c + 1}\]</span>
+<span class="math display">\[E[\pi_s^{(2)}] = E\left[\prod_{c=1}^k \pi_c^{(2)}\right] = \prod_{c=1}^k \frac{n_c + 1}{n_c + 1 + 1}E[\pi_s^{(1)}] = E[\pi_s^{(1)}]\prod_{c=1}^k \frac{n_c + 1}{n_c + 2}\]</span>
+<span class="math display">\[Var[\pi_s] = E[\pi_s^{(2)}] - (E[\pi_s^{(1)}])^2 = E[\pi_s^{(1)]}]\prod_{c=1}^k\frac{n_c + 1}{n_c + 2} - (E[\pi_s^{(1)}])^2\]</span>
+<span class="math display">\[\rightarrow Var[\pi_s] = \prod_{c=1}^k \frac{n_c}{n_c + 1} \cdot\prod_{c=1}^k \frac{n_c + 1}{n_c + 2} - (\prod_{c=1}^k \frac{n_c}{n_c + 1})^2\]</span></p>
+<p>And for <span class="math inline">\(x &gt; 0\)</span>,</p>
+<p><span class="math display">\[E[\pi_s^{(1)}] = E\left[\prod_{c=1}^k \pi_c^{(1)}\right] = \prod_{c=1}^k \frac{n_c - x_c}{n_c + 1}\]</span>
+<span class="math display">\[E[\pi_s^{(2)}] = E\left[\prod_{c=1}^k \pi_c^{(2)}\right] = \prod_{c=1}^k \frac{n_c - x_c + 1}{n_c - x_c + x_c + 1 + 1}E[\pi_s^{(1)}] = E[\pi_s^{(1)}]\prod_{c=1}^k \frac{n_c - x_c + 1}{n_c + 2}\]</span>
+<span class="math display">\[Var[\pi_s] = E[\pi_s^{(2)}] - (E[\pi_s^{(1)}])^2 = E[\pi_s^{(1)]}]\prod_{c=1}^k\frac{n_c - x_c + 1}{n_c + 2} - (E[\pi_s^{(1)}])^2\]</span>
+<span class="math display">\[\rightarrow Var[\pi_s] = \prod_{c=1}^k \frac{n_c-x_c}{n_c + 1} \cdot\prod_{c=1}^k \frac{n_c - x_c + 1}{n_c + 2} - (\prod_{c=1}^k \frac{n_c - x_c}{n_c + 1})^2\]</span>
+System reliabiltiy is approximated by a <span class="math inline">\(Beta(a_s,b_s)\)</span> distribution as a posterior distribution with parameters <span class="math inline">\(a_s\)</span> and <span class="math inline">\(b_s\)</span> with a mean and variance of -</p>
+<p><span class="math display">\[\mu = \frac{a_s}{a_s + b_s}; \quad \sigma^2 = \frac{a_sb_s}{(a_s + b_s)^2(a_s + b_s + 1)}\]</span>
+Rearranging for <span class="math inline">\(a_s\)</span> and <span class="math inline">\(b_s\)</span>, we obtain -</p>
+<p><span class="math display">\[b_s = \frac{\hat{\mu}(-\hat{\mu} + 1)^2}{\hat{\sigma^2}} + \hat{\mu} - 1; a_s = \frac{\hat{\mu}b}{1-\hat{\mu}}\]</span> where <span class="math display">\[\hat{\mu} = \prod_{i=1}^c \frac{n_c - x_c}{n_c + 1}\]</span> and</p>
+<p><span class="math display">\[\hat{\sigma^2} = \hat{\mu}\prod_{c=1}^k \frac{n_c - x_c + 1}{n_c + 2} - \hat{\mu}^2\]</span></p>
+<p>The expression for the system parameter estimates uses the individual component test results to generate the system reliability’s probability distribution. This is the general case above so it works for components with failures and components with no failures configured serially.</p>
+<p><strong>Simulation (Bootstrap)</strong></p>
+<p>Here is code I’ve written to obtain the standard error of system reliability based on component reliabilities via sampling/bootstrapping. It is also possible to bootstrap the power for sample size calculations -</p>
+<p><strong>References</strong></p>
+<ol style="list-style-type: decimal">
+<li>The Distribution of Products of Beta, Gamma and Gaussian Random Variables</li>
+<li>Reliability Estimation of One-Shot Systems with Zero Component Test Failures</li>
+</ol>
