@@ -1,0 +1,35 @@
+---
+title: "Bayesian Reliability Analysis"
+author: "Bryant Chen"
+date: 2022-01-02
+categories: ["Blog"]
+tags: ["Simulation", "Bayesian", "Reliability","Mathematical Statistics","MCMC"]
+description: Estimating reliability of a serially configured system under a Bayesian analysis.
+output:
+  pdf_document: default
+  html_document: default
+---
+
+<script src="Bayesian Reliability Analysis_files/header-attrs/header-attrs.js"></script>
+
+
+<p><span class="math display">\[f(\pi|x) = \frac{f(x|\pi)f(\pi)}{f(x)} \propto f(x|\pi)f(\pi)\]</span>
+<span class="math display">\[X \sim Bin(n,\pi) \rightarrow f(x|\pi) \sim Bin(x;n,\pi)\]</span>
+<span class="math display">\[\pi \sim Beta(a,b) \rightarrow f(\pi) = Beta(\pi;a,b)\]</span>
+<span class="math display">\[f(\pi|x) \propto f(x|\pi)f(\pi) \rightarrow f(\pi|x) \propto Bin(x;n,\pi)\cdot Beta(\pi;a,b)\]</span>
+<span class="math display">\[\rightarrow f(\pi|x) \propto {n \choose x} \frac{1}{B(a,b)}n^{x+a-1}(1-\pi)^{n-x+b-1}\]</span>
+For a series system -</p>
+<p><span class="math display">\[\pi_s \sim \prod_{c=1}^k \pi_c; \quad \pi_c \sim Beta(a_c,b_c)\]</span> where <span class="math inline">\(s\)</span> and <span class="math inline">\(c\)</span> denote system and component, respectively.</p>
+<p><span class="math display">\[\hat{\pi_c} = \frac{n_c - x_c}{n_c}\]</span>
+Biasedness of this estimator -</p>
+<p><span class="math display">\[E[\hat{\pi_c}] = \frac{n_c - x_c}{n_c} = \frac{E[n_c] - E[x_c]}{n_c} = \frac{n_c}{n_c} - \frac{n_c - x}{(n_c + 1)n_c} = \frac{n^2_c(n_c + 1) - n_c(n_c - x)}{n^2_c(n_c + 1)}\]</span>
+<span class="math display">\[= \frac{n^3_c + n^2_c - n^2_c + n_cx_c}{n^2_c(n_c + 1)} = \frac{n^3_c + n_cx_c}{n^2_c(n_c + 1)} = \frac{n_c(n^2_c + x_c)}{n_c(n^2_c + n_c)} = \frac{n^2_c + x_c}{n^2_c + n_c}\]</span></p>
+<p>When <span class="math inline">\(x = 0\)</span> or zero failures occur -</p>
+<p><span class="math display">\[\pi_c \sim Beta(\pi,1)\]</span>
+<span class="math display">\[a = n; \quad b = 1\]</span>
+<span class="math display">\[\mu = \frac{a}{a + b} = \frac{n}{n+1}; \quad \sigma^2 = \frac{ab}{(a+b)^2(a+b+1)} = \frac{n}{(n+1)^2(n+2)}\]</span>
+Note:</p>
+<p><span class="math display">\[Beta(n,1) \rightarrow f(\pi) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}\pi^{a-1}(1-\pi)^{b-1} \rightarrow f(\pi) = \frac{\Gamma(n+1)}{\Gamma(n)\Gamma(1)}\pi^{n-1}(1-\pi)^0 = n\pi^{n-1}\]</span></p>
+<p>When <span class="math inline">\(x &gt; 0\)</span> or at least one failure occurs -</p>
+<p><span class="math display">\[\pi_c \sim Beta(n_c,1)\]</span>
+<span class="math display">\[a = n; \quad b = 1\]</span></p>

@@ -2,8 +2,8 @@
 title: "Nonparametric Tolerance Intervals - Part I"
 author: "Bryant Chen"
 date: 2022-01-02
-categories: ["Mathematical Statistics"]
-tags: ["Simulation", "Nonparametric", "Tolerance"]
+categories: ["Blog"]
+tags: ["Simulation", "Nonparametric", "Tolerance","Mathematical Statistics","Order Statistics"]
 description: A method for constructing a nonparametric tolerance interval.
 output:
   pdf_document: default
@@ -14,11 +14,15 @@ output:
 
 
 <p><strong>Introduction</strong></p>
-<p>This first post is going to be about a method of constructing Nonparametric Tolerance Intervals with a focus on it’s derivation, simulation and application to real data. In particular, Wilk’s method for determining the limits based on order statistics, is covered here.</p>
-<p>First, what is a tolerance interval? A tolerance interval is different from the familiar confidence interval and even a prediction interval in that a tolerance interval</p>
+<p>This piece is going to be about a method of constructing Nonparametric Tolerance Intervals with a focus on it’s derivation, simulation and application to real data. In particular, Wilk’s method for determining the limits based on order statistics, is covered here.</p>
+<p>First, what is a tolerance interval? A tolerance interval is different from the familiar confidence interval and even a prediction interval in that a tolerance interval provides limits in which at least a certain proportion of the sampled population falls within with a specified level of confidence. Whereas confidence and prediction intervals are meant to bound a population parameter and a future sampled value, respectively, tolerance intervals bounds a range of values that make up a certain proportion of the population. Tolerance intervals are lesser known compared to the other two</p>
+<p>rather than
+parameter</p>
+<p>value</p>
 <p>It is assumed that the reader is familiar with mathematical statistics when it comes to the derivation section.</p>
 <p>devise one-sided tolerance limits
-, similar to confidence limits</p>
+, similar to confidence limits
+upper or lower</p>
 <p>In other words,</p>
 <p><strong>Derivation</strong></p>
 <p>Suppose we have a sequence of random variables that follow some probability distribution -</p>
@@ -65,10 +69,10 @@ hist(our_sample)
 
 tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = &quot;WILKS&quot;)</code></pre>
 <pre><code>##   alpha   P 2-sided.lower 2-sided.upper
-## 1   0.1 0.9      6.804904      43.13753</code></pre>
+## 1   0.1 0.9      6.708026      70.83719</code></pre>
 <pre class="r"><code>tolerance::normtol.int(our_sample, alpha = .10,P = .10,side = 2,method = &quot;HE&quot;)</code></pre>
 <pre><code>##   alpha   P    x.bar 2-sided.lower 2-sided.upper
-## 1   0.1 0.1 24.02395      22.64489      25.40302</code></pre>
+## 1   0.1 0.1 23.96237      22.14617      25.77857</code></pre>
 <pre class="r"><code>n = 1000 # of iterations
 intervals = matrix(data = NA, nrow = n, ncol = 3)
 bad_intervals = matrix(data = NA, nrow = n, ncol = 3) # showing what happens if you assume the wrong distribution
@@ -96,9 +100,9 @@ for (i in 1:n){
 
 #intervals
 sum(results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.978</code></pre>
+<pre><code>## [1] 0.968</code></pre>
 <pre class="r"><code>sum(bad_results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.594</code></pre>
+<pre><code>## [1] 0.599</code></pre>
 <pre class="r"><code># Number of samples vs. confidence lvl vs. population coverage
 
 ss = c(seq(40,120,by = 10))
