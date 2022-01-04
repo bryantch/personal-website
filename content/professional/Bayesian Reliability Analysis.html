@@ -31,5 +31,24 @@ Biasedness of this estimator -</p>
 Note:</p>
 <p><span class="math display">\[Beta(n,1) \rightarrow f(\pi) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}\pi^{a-1}(1-\pi)^{b-1} \rightarrow f(\pi) = \frac{\Gamma(n+1)}{\Gamma(n)\Gamma(1)}\pi^{n-1}(1-\pi)^0 = n\pi^{n-1}\]</span></p>
 <p>When <span class="math inline">\(x &gt; 0\)</span> or at least one failure occurs -</p>
-<p><span class="math display">\[\pi_c \sim Beta(n_c,1)\]</span>
-<span class="math display">\[a = n; \quad b = 1\]</span></p>
+<p><span class="math display">\[\pi_c \sim Beta(n_c - x_c,x_c + 1)\]</span>
+<span class="math display">\[a = n-x; \quad b = x + 1\]</span>
+<span class="math display">\[\mu = \frac{a}{a + b} = \frac{n-x}{n+1}; \quad \sigma^2 = \frac{ab}{(a+b)^2(a+b+1)} = \frac{(n-x)(x+1)}{(n+1)^2(n+2)}\]</span>
+Thus -</p>
+<p><span class="math display">\[Beta(\pi_c;n_c-x_c,x_c+1) \rightarrow f(\pi) = \frac{\Gamma(a + b)}{\Gamma(a)\Gamma(b)}\pi^{a-1}(1-\pi)^{b-1} \rightarrow f(\pi)\]</span>
+<span class="math display">\[ = \frac{\Gamma(n-x+x+1)}{\Gamma(n-x)\Gamma(x+1)}\pi^{n-x-1}(1-\pi)^{x+1-1} = \frac{\Gamma(n+1)}{\Gamma(n-x)\Gamma(x+1)}\pi^{n-x-1}(1-\pi)^x\]</span>
+Then -</p>
+<p><span class="math display">\[\pi_s = \prod_{c=1}^k\pi_c; \quad \pi_c \sim Beta(n_c - x_c, x_c + 1)\]</span></p>
+<p>Exact Method</p>
+<p>Using the Mellin Transformation below to derive the distribution of a product of random variables, specifically Beta random variables -</p>
+<p><span class="math display">\[M\{f(x)|s\} = E[X^{s-1}] = \int_0^\infty x^{s-1}f(x)dx\]</span></p>
+<p>Approximate Method</p>
+<p>This utilizes moments -</p>
+<p><span class="math display">\[E[X^{(k)}] = \frac{a+k-1}{a+b+k-1}E[X^{(k-1)}]\]</span>
+1st moment -</p>
+<p><span class="math display">\[E[X^{(k)}] = \frac{a+k-1}{a+b+k-1}E[X^{(1-1)}] = \frac{a}{a+b}\]</span>
+2nd moment -</p>
+<p><span class="math display">\[E[X^{(2)}] = \frac{a+2-1}{a+b+2-1}E[X^{(2-1)}] = \frac{a+1}{a+b+1}E[X^{(1)}] = \frac{a+1}{a+b+1}\cdot[\frac{a}{a+b}]\]</span>
+Thus -</p>
+<p><span class="math display">\[Var[X] = E[X^{(2)}] - (E[X^{(1)}])^2 = \frac{a+1}{a+b+1}\cdot\frac{a}{a+b} - (\frac{a}{a+b})^2 = \frac{ab}{(a+b)^2(a+b+1)}\]</span>
+So for <span class="math inline">\(x = 0\)</span>,</p>

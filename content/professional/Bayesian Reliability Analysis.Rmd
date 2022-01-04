@@ -36,10 +36,38 @@ $$Beta(n,1) \rightarrow f(\pi) = \frac{\Gamma(a+b)}{\Gamma(a)\Gamma(b)}\pi^{a-1}
 
 When $x > 0$ or at least one failure occurs - 
 
-$$\pi_c \sim Beta(n_c,1)$$
-$$a = n; \quad b = 1$$
+$$\pi_c \sim Beta(n_c - x_c,x_c + 1)$$
+$$a = n-x; \quad b = x + 1$$
+$$\mu = \frac{a}{a + b} = \frac{n-x}{n+1}; \quad \sigma^2 = \frac{ab}{(a+b)^2(a+b+1)} = \frac{(n-x)(x+1)}{(n+1)^2(n+2)}$$
+Thus - 
 
+$$Beta(\pi_c;n_c-x_c,x_c+1) \rightarrow f(\pi) = \frac{\Gamma(a + b)}{\Gamma(a)\Gamma(b)}\pi^{a-1}(1-\pi)^{b-1} \rightarrow f(\pi)$$
+$$ = \frac{\Gamma(n-x+x+1)}{\Gamma(n-x)\Gamma(x+1)}\pi^{n-x-1}(1-\pi)^{x+1-1} = \frac{\Gamma(n+1)}{\Gamma(n-x)\Gamma(x+1)}\pi^{n-x-1}(1-\pi)^x$$
+Then - 
 
+$$\pi_s = \prod_{c=1}^k\pi_c; \quad \pi_c \sim Beta(n_c - x_c, x_c + 1)$$
+
+Exact Method
+
+Using the Mellin Transformation below to derive the distribution of a product of random variables, specifically Beta random variables - 
+
+$$M\{f(x)|s\} = E[X^{s-1}] = \int_0^\infty x^{s-1}f(x)dx$$
+
+Approximate Method
+
+This utilizes moments - 
+
+$$E[X^{(k)}] = \frac{a+k-1}{a+b+k-1}E[X^{(k-1)}]$$
+1st moment - 
+
+$$E[X^{(k)}] = \frac{a+k-1}{a+b+k-1}E[X^{(1-1)}] = \frac{a}{a+b}$$
+2nd moment - 
+
+$$E[X^{(2)}] = \frac{a+2-1}{a+b+2-1}E[X^{(2-1)}] = \frac{a+1}{a+b+1}E[X^{(1)}] = \frac{a+1}{a+b+1}\cdot[\frac{a}{a+b}]$$
+Thus - 
+
+$$Var[X] = E[X^{(2)}] - (E[X^{(1)}])^2 = \frac{a+1}{a+b+1}\cdot\frac{a}{a+b} - (\frac{a}{a+b})^2 = \frac{ab}{(a+b)^2(a+b+1)}$$
+So for $x = 0$,
 
 
 
