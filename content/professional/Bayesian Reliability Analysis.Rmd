@@ -4,7 +4,7 @@ author: "Bryant Chen"
 date: 2022-01-02
 categories: ["Blog"]
 tags: ["Simulation", "Bayesian", "Reliability","Mathematical Statistics","MCMC"]
-description: Estimating reliability of a serially configured system under a Bayesian analysis.
+description: Estimating the reliability of a serially configured system under a Bayesian analysis.
 output:
   pdf_document: default
   html_document: default
@@ -24,6 +24,9 @@ Biasedness of this estimator -
 
 $$E[\hat{\pi_c}] = \frac{n_c - x_c}{n_c} = \frac{E[n_c] - E[x_c]}{n_c} = \frac{n_c}{n_c} - \frac{n_c - x}{(n_c + 1)n_c} = \frac{n^2_c(n_c + 1) - n_c(n_c - x)}{n^2_c(n_c + 1)}$$
 $$= \frac{n^3_c + n^2_c - n^2_c + n_cx_c}{n^2_c(n_c + 1)} = \frac{n^3_c + n_cx_c}{n^2_c(n_c + 1)} = \frac{n_c(n^2_c + x_c)}{n_c(n^2_c + n_c)} = \frac{n^2_c + x_c}{n^2_c + n_c}$$
+
+$$Bias = E[\hat{\pi_c}] - E[\pi] = \frac{n^2_c + x_c}{n^2_c + n_c} - \frac{n_c - x_c}{n_c + 1} = \frac{x_c}{n_c}$$
+This means that using $\hat{\pi_c} = \frac{n_c - x_c}{n_c}$ as the estimate of each component's true mean reliability is biased by $\frac{x_c}{n_c}$ which increases as more failures are experienced for a particular component but if there are no failures then the bias is zero.
 
 When $x = 0$ or zero failures occur - 
 
@@ -47,13 +50,36 @@ Then -
 
 $$\pi_s = \prod_{c=1}^k\pi_c; \quad \pi_c \sim Beta(n_c - x_c, x_c + 1)$$
 
-Exact Method
+*Exact Method*
 
-Using the Mellin Transformation below to derive the distribution of a product of random variables, specifically Beta random variables - 
+Using the Mellin Transformation below to derive the distribution of a product of random variables, specifically Beta random variables that represents the reliability of each component - 
 
 $$M\{f(x)|s\} = E[X^{s-1}] = \int_0^\infty x^{s-1}f(x)dx$$
+The Mellin transform of a product of two or more independent random variables, $X$ and $Y$, namely Beta random variables, is equal to the product of the Mellin transforms of the random variables.
 
-Approximate Method
+$$M_{XY}(s) = M_X(s)M_Y(s)$$
+$$z = \prod_{i=1}^N X_i; X_i \sim Beta(a_i,b_i)$$
+The Mellin transform of each Beta random variable is - 
+
+$$M \{ f_i(x_i)|s \} = \frac{\Gamma(a_i + b_i)}{\Gamma (a_i)} \frac{\Gamma(a_i-1+s)}{a_i+b_i-1+s}$$
+Then the Mellin transform of the product of the Mellin transforms is - 
+
+$$M \{ g(z)|s \} = \frac{\Gamma(a_i + b_i)}{\Gamma (a_i)} \frac{1}{(s+a_i-1)(s+a_i)...(s+a_i-2+b)}$$
+
+The probability density function of this is - 
+
+$$g(z) = \frac{1}{2\pi i} \int_{c-i^\infty}^{c+i^\infty} z^{-s} \prod_{i=1}^N M\{f_i(x_i)|s\}ds = \prod_{i=1}^N \frac{\Gamma(a_i + b_i)}{\Gamma(a_i)}G_{N0}^{N0}()$$
+which is a Meijer G-function which has the closed form representation - 
+
+
+Extending this to the situation where we have a product of independent and identically distributed Beta random variables, the resulting probability distribution function can be represented in closed-form as - 
+
+where
+
+
+We can deduce that the expression for the Mellin transform of the product of the Mellin transforms of the independent Beta random variables and the Mellin transform of a Beta random variable, are very similar. This demonstrates that a product of Beta random variables is a Beta random variable. That is, the reliability of a system whose components are configured serially and the reliability of each independent component follows a Beta distribution, follows a Beta distribution itself as a result of a product of the component reliabilities. To determine the parameter values of the Beta distribution that the system reliability follows, the method of moments is utilized to approximate them.
+
+*Approximate Method*
 
 This utilizes moments - 
 
@@ -92,12 +118,101 @@ $$\hat{\sigma^2} = \hat{\mu}\prod_{c=1}^k \frac{n_c - x_c + 1}{n_c + 2} - \hat{\
 
 The expression for the system parameter estimates uses the individual component test results to generate the system reliability's probability distribution. This is the general case above so it works for components with failures and components with no failures configured serially.
 
-**Simulation (Bootstrap)**
+The system test size is determined by the margin of uncertainty desired for the system reliability credible interval.
 
-Here is code I've written to obtain the standard error of system reliability based on component reliabilities via sampling/bootstrapping. It is also possible to bootstrap the power for sample size calculations - 
+Margin of Uncertainty - 
+$$\pi_{s,UCL} - \pi_{s,LCL} = F^{-1}(1-\frac{\alpha}{2},a_s+n_s,b_s+x_s) - F^{-1}(\frac{\alpha}{2},a_s+n_s,b_s+x_s)$$
+where $F^{-1}$ is the inverse of the Beta cumulative distribution function (CDF).
 
+**Simulation**
+
+Here is code I've written below to obtain the standard error of system reliability based on component reliabilties via Monte Carlo simulation and bootstrapping to show agreement between the analytically derived distribution and the distributional result from resampling for system reliability. It is also possible to bootstrap the power for sample size calculations. 
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+# 5 components
+nsim = 5000
+R1 = .95; R2 = .80; R3 = .85; R4 = .90; R5 = .99
+R_s = prod(R1,R2,R3,R4,R5) # true system reliability
+N = 1000 # system population
+
+n1 = 100; n2 = 50; n3 = 80; n4 = 70; n5 = 150
+
+f1 = rbinom(n = 1,size = n1,prob = 1-R1); s1 = n1-f1
+f2 = rbinom(n = 1,size = n2,prob = 1-R2); s2 = n2-f2
+f3 = rbinom(n = 1,size = n3,prob = 1-R3); s3 = n3-f3
+f4 = rbinom(n = 1,size = n4,prob = 1-R4); s4 = n4-f4
+f5 = rbinom(n = 1,size = n5,prob = 1-R5); s5 = n5-f5
+
+r_s = prod(s1/n1,s2/n2,s3/n3,s4/n4,s5/n5)
+
+# determining system reliability beta r.v parameters
+mu1 = (n1 - f1)/(n1 + 1); var1 = (n1-f1)*(f1+1)/((n1+1)^2*(n1+2))
+mu2 = (n2 - f2)/(n2 + 1); var2 = (n2-f2)*(f2+1)/((n2+1)^2*(n2+2))
+mu3 = (n3 - f3)/(n3 + 1); var3 = (n3-f3)*(f3+1)/((n3+1)^2*(n3+2))
+mu4 = (n4 - f4)/(n4 + 1); var4 = (n4-f4)*(f4+1)/((n4+1)^2*(n4+2))
+mu5 = (n5 - f5)/(n5 + 1); var5 = (n5-f5)*(f5+1)/((n5+1)^2*(n5+2))
+
+mu_s = prod(mu1,mu2,mu3,mu4,mu5); var_s = mu_s* prod((n1-f1+1)/(n1+2),
+                                                     (n2-f2+1)/(n2+2),
+                                                     (n3-f3+1)/(n3+2),
+                                                     (n4-f4+1)/(n4+2),
+                                                     (n5-f5+1)/(n5+2)) - mu_s^2
+
+a_s = mu_s*((mu_s - mu_s^2)/var_s - 1); b_s = (1-mu_s)*((mu_s - mu_s^2)/var_s - 1)
+# monte carlo simulation
+# plotting the densities
+r_s.sim = rbeta(n = nsim,shape1 = a_s,shape2 = b_s)
+r_s.sim %>% density %>% plot(main = "Plot of System Reliabiltiy",
+                              xlim = c(0.3,.8),
+                              ylim = c(0,10))
+legend("topleft",legend = c("Monte Carlo","Bootstrapped"),lty = c(1,1),
+       col = c("black","blue"),bty = "n")
+
+# estimating density, mean and variance via bootstrapping 
+nboot = 10000
+nbias = 100
+r_s.boot = rep(0,nboot)
+bias.boot = rep(0,nbias)
+for(j in 1:nbias){
+  for (i in 1:nboot){
+    f1 = rbinom(n = 1,size = n1,prob = 1-R1); s1 = n1-f1
+    f2 = rbinom(n = 1,size = n2,prob = 1-R2); s2 = n2-f2
+    f3 = rbinom(n = 1,size = n3,prob = 1-R3); s3 = n3-f3
+    f4 = rbinom(n = 1,size = n4,prob = 1-R4); s4 = n4-f4
+    f5 = rbinom(n = 1,size = n5,prob = 1-R5); s5 = n5-f5
+    
+    r_s.boot[i] = prod(s1/n1,s2/n2,s3/n3,s4/n4,s5/n5)
+  }
+  r_s.sim = rbeta(n = nsim,shape1 = a_s,shape2 = b_s)
+  bias.boot[j] = (r_s.sim %>% mean) - (r_s.boot %>% mean)
+  
+  r_s.sim %>% density %>% lines(col = "blue")
+  r_s.boot %>% density %>% lines(col = "black")
+}
+
+# mean and standard error for system reliability
+r_s.boot %>% mean; r_s.boot %>% var %>% sqrt
+r_s.sim %>% mean; r_s.sim %>% var %>% sqrt
+
+# bias
+#bias = r_s.sim %>% mean - r_s.boot %>% mean
+bias.boot %>% mean # bias is somewhat negligible
+bias.boot %>% hist(breaks = 10,freq = FALSE)
+bias.boot %>% density() %>% lines(col = "green")
+
+# posterior predictive distribution
+y.post = numeric()
+r_s.sim = rbeta(n = nsim,shape1 = a_s,shape2 = b_s)
+for (i in 1:nsim) {
+  y.post[i] = rbinom(n = 1,size = 1,prob = r_s.sim[i])  
+}
+```
 
 **References**
 
 1. The Distribution of Products of Beta, Gamma and Gaussian Random Variables
 2. Reliability Estimation of One-Shot Systems with Zero Component Test Failures
+3. Products of Normal, Beta and Gamma Random Variables: Stein Operators and Distributional Theory
