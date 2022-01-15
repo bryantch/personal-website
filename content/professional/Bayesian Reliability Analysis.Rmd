@@ -10,6 +10,12 @@ output:
   html_document: default
 ---
 
+In this piece, I expanded upon the 
+
+system reliability
+
+presented in a paper written
+
 $$f(\pi|x) = \frac{f(x|\pi)f(\pi)}{f(x)} \propto f(x|\pi)f(\pi)$$
 $$X \sim Bin(n,\pi) \rightarrow f(x|\pi) \sim Bin(x;n,\pi)$$
 $$\pi \sim Beta(a,b) \rightarrow f(\pi) = Beta(\pi;a,b)$$
@@ -68,7 +74,9 @@ $$M \{ g(z)|s \} = \frac{\Gamma(a_i + b_i)}{\Gamma (a_i)} \frac{1}{(s+a_i-1)(s+a
 
 The probability density function of this is - 
 
-$$g(z) = \frac{1}{2\pi i} \int_{c-i^\infty}^{c+i^\infty} z^{-s} \prod_{i=1}^N M\{f_i(x_i)|s\}ds = \prod_{i=1}^N \frac{\Gamma(a_i + b_i)}{\Gamma(a_i)}G_{N0}^{N0}()$$
+$$g(z) = \frac{1}{2\pi i} \int_{c-i^\infty}^{c+i^\infty} z^{-s} \prod_{i=1}^N M\{f_i(x_i)|s\}ds = \prod_{i=1}^N \frac{\Gamma(a_i + b_i)}{\Gamma(a_i)}G_{N0}^{N0}(z| )$$
+
+
 which is a Meijer G-function which has the closed form representation - 
 
 
@@ -129,8 +137,11 @@ where $F^{-1}$ is the inverse of the Beta cumulative distribution function (CDF)
 Here is code I've written below to obtain the standard error of system reliability based on component reliabilties via Monte Carlo simulation and bootstrapping to show agreement between the analytically derived distribution and the distributional result from resampling for system reliability. It is also possible to bootstrap the power for sample size calculations. 
 
 ```{r}
+# reliability simulation
+
 library(dplyr)
 library(ggplot2)
+set.seed(2022)
 
 # 5 components
 nsim = 5000
@@ -162,20 +173,22 @@ mu_s = prod(mu1,mu2,mu3,mu4,mu5); var_s = mu_s* prod((n1-f1+1)/(n1+2),
                                                      (n5-f5+1)/(n5+2)) - mu_s^2
 
 a_s = mu_s*((mu_s - mu_s^2)/var_s - 1); b_s = (1-mu_s)*((mu_s - mu_s^2)/var_s - 1)
+
 # monte carlo simulation
-# plotting the densities
 r_s.sim = rbeta(n = nsim,shape1 = a_s,shape2 = b_s)
 r_s.sim %>% density %>% plot(main = "Plot of System Reliabiltiy",
-                              xlim = c(0.3,.8),
-                              ylim = c(0,10))
-legend("topleft",legend = c("Monte Carlo","Bootstrapped"),lty = c(1,1),
-       col = c("black","blue"),bty = "n")
+                             ylim = c(0,10))
+legend("topleft",legend = c("Monte Carlo (MC)","Bootstrapped (BS)","95% MC Credible Interval",
+                            "95% BS Credible Interval","True System Reliability",
+                            "MAP Estimate","Reliability Estimate","BS Mean Reliability"),lty = c(1,1,2,2,3,1,1,1),
+       col = c("black","blue","purple","green","red","cyan","orange","pink"),bty = "n", cex = .75)
 
 # estimating density, mean and variance via bootstrapping 
 nboot = 10000
 nbias = 100
 r_s.boot = rep(0,nboot)
 bias.boot = rep(0,nbias)
+
 for(j in 1:nbias){
   for (i in 1:nboot){
     f1 = rbinom(n = 1,size = n1,prob = 1-R1); s1 = n1-f1
@@ -193,13 +206,24 @@ for(j in 1:nbias){
   r_s.boot %>% density %>% lines(col = "black")
 }
 
+# 95% credible interval
+boot.lci = sort(r_s.boot)[nboot*.025]; boot.uci = sort(r_s.boot)[nboot*.975]
+abline(v = c(boot.lci,boot.uci),col = "green",lty = 2)
+
+sim.lci = qbeta(.025,shape1 = a_s,shape2 = b_s); sim.uci = qbeta(.975,shape1 = a_s,shape2 = b_s)
+abline(v = c(sim.lci,sim.uci),col = "purple",lty = 2)
+abline(v = R_s,col = "red",lty = 3) # true reliability value
+
+map.estimate = (a_s - 1)/(a_s + b_s - 2); abline(v = map.estimate, col = "cyan") # MAP estimate
+abline(v = r_s, col = "orange") # reliability estimate
+abline(v = mean(r_s.boot),col = "pink") # mean bootstrapped reliability estimate
+
 # mean and standard error for system reliability
 r_s.boot %>% mean; r_s.boot %>% var %>% sqrt
 r_s.sim %>% mean; r_s.sim %>% var %>% sqrt
 
 # bias
-#bias = r_s.sim %>% mean - r_s.boot %>% mean
-bias.boot %>% mean # bias is somewhat negligible
+bias.boot %>% mean # bias seems to increase as reliability increases? estimator could be performing poorly at the extremes
 bias.boot %>% hist(breaks = 10,freq = FALSE)
 bias.boot %>% density() %>% lines(col = "green")
 
@@ -209,6 +233,16 @@ r_s.sim = rbeta(n = nsim,shape1 = a_s,shape2 = b_s)
 for (i in 1:nsim) {
   y.post[i] = rbinom(n = 1,size = 1,prob = r_s.sim[i])  
 }
+
+fail.count = 0; success.count = 0
+for (i in 1:nsim) {
+  if(y.post[i] == 0){
+    fail.count = fail.count + 1
+  } else {success.count = success.count + 1}
+}
+
+(c(fail.count,success.count)/nsim) %>% barplot(names.arg = c("Fail","Success"),
+                                               main = "Posterior Predictive Distribution")
 ```
 
 **References**
