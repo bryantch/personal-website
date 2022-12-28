@@ -1,64 +1,147 @@
 ---
 title: "Nonparametric Tolerance Intervals - Part I"
 author: "Bryant Chen"
-date: 2022-01-02
+date: 2022-12-27
 categories: ["Blog"]
 tags: ["Simulation", "Nonparametric", "Tolerance","Mathematical Statistics","Order Statistics"]
 description: A method for constructing a nonparametric tolerance interval.
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 <script src="Nonparametric Tolerance Intervals_files/header-attrs/header-attrs.js"></script>
 
 
 <p><strong>Introduction</strong></p>
-<p>This piece is going to be about a method of constructing Nonparametric Tolerance Intervals with a focus on it’s derivation, simulation and application to real data. In particular, Wilk’s method for determining the limits based on order statistics, is covered here.</p>
-<p>First, what is a tolerance interval? A tolerance interval is different from the familiar confidence interval and even a prediction interval in that a tolerance interval provides limits in which at least a certain proportion of the sampled population falls within with a specified level of confidence. Whereas confidence and prediction intervals are meant to bound a population parameter and a future sampled value, respectively, tolerance intervals bounds a range of values that make up a certain proportion of the population. Tolerance intervals are lesser known compared to the other two</p>
-<p>rather than
-parameter</p>
-<p>value</p>
-<p>It is assumed that the reader is familiar with mathematical statistics when it comes to the derivation section.</p>
-<p>devise one-sided tolerance limits
-, similar to confidence limits
-upper or lower</p>
-<p>In other words,</p>
+<p>This post is going to be about a method of constructing Nonparametric
+Tolerance Intervals with a focus on it’s derivation, simulation and
+application to real data. In particular, Wilk’s method for determining
+the limits of the interval based on order statistics, is covered here at
+some mathematical depth.</p>
+<p>First, what is a tolerance interval? A tolerance interval is different
+from the familiar confidence interval and even a prediction interval in
+that a tolerance interval provides limits in which at least a certain
+proportion of the sampled population falls within with a specified level
+of confidence. Tolerance intervals are lesser known compared to the
+other two but are widely utilized in manufacturing environments. Whereas
+confidence and prediction intervals are meant to bound a population
+parameter and a future sampled value, respectively, tolerance intervals
+bound a range of values that make up a certain proportion of the
+population.</p>
+<p>To correctly interpret a computed tolerance interval, say for one that
+covers 90% of the population with 95% confidence - the proportion of
+tolerance intervals which contain at least 90% of the population
+computed from samples obtained from repeated sampling of the population
+is 95%. Similarly, there is a 95% chance that the 90/95 tolerance
+interval calculated from a given future sample will bound at least 90%
+of the population.</p>
+<p>For this introductory post, an emphasis is placed on constructing a
+tolerance interval but much like one-sided upper or lower confidence and
+prediction limits, one can also devise one-sided upper or lower
+tolerance limits, both of which that have the most desired property of
+having their nominal coverage probability hold. This means that on
+repeated sampling of the population, yielding independent data sets and
+a set of tolerance intervals computed from these then the fraction of
+these computed intervals that include at least the specified proportion
+of the population, equal the specified confidence level or nominal
+coverage probability associated with the interval. Any mismatch between
+the actual coverage probability and the nominal coverage probability
+typically occurs when there are issues with distributional assumptions
+as well as in cases of approximating a discrete distribution with a
+continuous one like methods for constructing binomial confidence
+intervals based on the normal distribution.</p>
+<p>Nonparametric methods are attractive when the distributional assumptions
+cannot be relied upon with parametric methods. There are several
+techniques for constructing a nonparametric tolerance interval but as
+mentioned aboved, Wilk’s method will be the one that is used for doing
+so and evaluated here for having the nominal coverage probability.</p>
 <p><strong>Derivation</strong></p>
-<p>Suppose we have a sequence of random variables that follow some probability distribution -</p>
+<p>Suppose we have a sequence of random variables that follow some
+probability distribution -</p>
 <p><span class="math display">\[X_1,X_2,...,X_n \sim f(x)\]</span> where <span class="math inline">\(f(x)\)</span> is unknown and -
-<span class="math display">\[X_{(1)},X_{(2)},...,X_{(n)}\]</span> are the order statistics while <span class="math inline">\(x_{(1)},x_{(2)},...,x_{(n)}\)</span> is the ordered sample.</p>
-<p>For a two-sided tolerance interval, we want an interval for some population, <span class="math inline">\(p\)</span> and confidence level, <span class="math inline">\(1-a\)</span>, such that -</p>
+<span class="math display">\[X_{(1)},X_{(2)},...,X_{(n)}\]</span> are the order statistics while
+<span class="math inline">\(x_{(1)},x_{(2)},...,x_{(n)}\)</span> is the ordered sample.</p>
+<p>For a two-sided tolerance interval, we want an interval for some
+population, <span class="math inline">\(p\)</span> and confidence level, <span class="math inline">\(1-a\)</span>, such that -</p>
 <p><span class="math display">\[P \left[ \Bigl\{ P[X \leq LL] \leq \frac{(1-p)}{2} \Bigr\} \cap \Bigl\{P[X \geq UL] \leq \frac{(1-p)}{2} \Bigr\} \right]= 1-a \]</span>
-We define <span class="math inline">\(LL\)</span> and <span class="math inline">\(UL\)</span> to be the values of the order statistics that satisfies <span class="math inline">\((F_X(UL) - F_X(LL)) \geq p\)</span>. So that means we need to find ranks, <span class="math inline">\(d\)</span> and <span class="math inline">\(c\)</span>, such that <span class="math inline">\(F(X_{(d)}) - F(X_{(c)}) \geq p\)</span> which is equivalent to the following -</p>
-<p><span class="math display">\[F(X_{(d)}) - F(X_{(c)}) \geq p \leftrightarrow \left[1 - \int_{X_{(c)}}^{X_{(d)}} f(x) dx \geq p \right]\]</span> where <span class="math inline">\(F\)</span> is the cumulative distribution function of the unknown population. We set <span class="math inline">\(W = F(X_{(d)}) - F(X_{(c)})\)</span> so <span class="math inline">\(W\)</span> is a random variable.</p>
-<p>It can be shown that the <span class="math inline">\(kth\)</span> smallest order statistic follows a Beta Distribution, <span class="math inline">\(Beta(\alpha,\beta)\)</span>, with <span class="math inline">\(\alpha = k\)</span> and <span class="math inline">\(\beta = n - k + 1\)</span>.</p>
-<p><span class="math display">\[X_{(k)} \sim Beta(k,n-k+1)\]</span>
-<span class="math display">\[c = r\]</span>
-<span class="math display">\[d = n-r+1\]</span>
-<span class="math display">\[d-c = n - r+1-r = n-2r+1 = a\]</span>
-<span class="math display">\[n-(n-2r+1)+1 = n-n+2r-1+1 = 2r = b\]</span>
-<span class="math display">\[\rightarrow X_{(d-c)} \sim Beta(a = n-2r+1, b = 2r)\]</span>
-So since <span class="math inline">\(W\)</span> is a function of the range between the order statistics with ranks <span class="math inline">\(d\)</span> and <span class="math inline">\(c\)</span>, we can say <span class="math inline">\(W \sim Beta(d-c,n-d+c+1)\)</span>.</p>
+We define <span class="math inline">\(LL\)</span> and <span class="math inline">\(UL\)</span> to be the values of the order statistics that
+satisfies <span class="math inline">\((F_X(UL) - F_X(LL)) \geq p\)</span>. So that means we need to find
+ranks, <span class="math inline">\(d\)</span> and <span class="math inline">\(c\)</span>, such that <span class="math inline">\(F(X_{(d)}) - F(X_{(c)}) \geq p\)</span> which is
+equivalent to the following -</p>
+<p><span class="math display">\[F(X_{(d)}) - F(X_{(c)}) \geq p \leftrightarrow \left[1 - \int_{X_{(c)}}^{X_{(d)}} f(x) dx \geq p \right]\]</span>
+where <span class="math inline">\(F\)</span> is the cumulative distribution function of the unknown
+population. We set <span class="math inline">\(W = F(X_{(d)}) - F(X_{(c)})\)</span> so <span class="math inline">\(W\)</span> is a random
+variable.</p>
+<p>It can be shown that the <span class="math inline">\(kth\)</span> smallest order statistic follows a Beta
+Distribution, <span class="math inline">\(Beta(\alpha,\beta)\)</span>, with <span class="math inline">\(\alpha = k\)</span> and
+<span class="math inline">\(\beta = n - k + 1\)</span>.</p>
+<p><span class="math display">\[X_{(k)} \sim Beta(k,n-k+1)\]</span> <span class="math display">\[c = r\]</span> <span class="math display">\[d = n-r+1\]</span>
+<span class="math display">\[d-c = n - r+1-r = n-2r+1 = a\]</span> <span class="math display">\[n-(n-2r+1)+1 = n-n+2r-1+1 = 2r = b\]</span>
+<span class="math display">\[\rightarrow X_{(d-c)} \sim Beta(a = n-2r+1, b = 2r)\]</span> So since <span class="math inline">\(W\)</span> is
+a function of the range between the order statistics with ranks <span class="math inline">\(d\)</span> and
+<span class="math inline">\(c\)</span>, we can say <span class="math inline">\(W \sim Beta(d-c,n-d+c+1)\)</span>.</p>
 <p><span class="math display">\[\rightarrow P[W \geq p] = 1-\alpha \leftrightarrow P[W \leq p] = \alpha\]</span>
-<span class="math display">\[\leftrightarrow P[Beta(d - c,n-d + c +1) \leq p] = \alpha\]</span>
-Note: No distribution about the population is assumed but the Beta distribution used here, arises due to being able to characterize an order statistic’s distribution with the Beta distribution so it is independent of the population’s distribution. Order statistics are central to nonparametric methods and are utilized often</p>
-<p>We can simplify this a bit by assuming symmetry of the ranks from their endpoints. For example, if <span class="math inline">\(n = 65\)</span> then <span class="math inline">\(x_{(2)}\)</span> and <span class="math inline">\(x_{(64)},x_{(3)},...,x_{(k)}\)</span> and <span class="math inline">\(x_{(n-k+1)}\)</span> are symmetric with each other in ranks.</p>
+<span class="math display">\[\leftrightarrow P[Beta(d - c,n-d + c +1) \leq p] = \alpha\]</span> Note: No
+distribution about the population is assumed but the Beta distribution
+used here, arises due to being able to characterize an order statistic’s
+distribution with the Beta distribution so it is independent of the
+population’s distribution. Order statistics are central to nonparametric
+methods and are heavily relied upon.</p>
+<p>We can simplify this a bit by assuming symmetry of the ranks from their
+endpoints. For example, if <span class="math inline">\(n = 65\)</span> then <span class="math inline">\(x_{(2)}\)</span> and
+<span class="math inline">\(x_{(64)},x_{(3)},...,x_{(k)}\)</span> and <span class="math inline">\(x_{(n-k+1)}\)</span> are symmetric with each
+other in ranks.</p>
 <p>To do this, we take <span class="math inline">\(c = r\)</span> and <span class="math inline">\(d = n-r+1\)</span> so that we end up with -</p>
 <p><span class="math display">\[P[Beta(d-c,n-d+c+1) \leq p] = \alpha \rightarrow P[Beta(n-2r+1,2r) \leq p] = \alpha\]</span>
-From here, we simply use the cumulative distribution function (CDF) of the Beta distribution which is the regularized incomplete beta function, <span class="math inline">\(I_x(a,b)\)</span>, to find the ranks of our sorted data that ensures the CDF at <span class="math inline">\(p\)</span> evaluates to <span class="math inline">\(\alpha\)</span> so that we can take the complement of this which would give us our confidence level, <span class="math inline">\(1-\alpha\)</span>.</p>
+From here, we simply use the cumulative distribution function (CDF) of
+the Beta distribution which is the regularized incomplete beta function,
+<span class="math inline">\(I_x(a,b)\)</span>, to find the ranks of our sorted data that ensures the CDF at
+<span class="math inline">\(p\)</span> evaluates to <span class="math inline">\(\alpha\)</span> so that we can take the complement of this
+which would give us our confidence level, <span class="math inline">\(1-\alpha\)</span>.</p>
 <p>The regularized incomplete beta function, evaluated at the ranks is -</p>
 <p><span class="math display">\[I_p(n-2r+1,2r) = \frac{\int_0^{p} t^{n-2r+1-1}(1-t)^{2r-1}dt}{\int_0^{1} t^{n-2r+1-1}(1-t)^{2r-1}dt}\]</span></p>
 <p>If <span class="math inline">\(r = 1\)</span> then this simplifies to -</p>
 <p><span class="math display">\[\frac{\int_0^{p} t^{n-2r+1-1}(1-t)^{2r-1}dt}{\int_0^{1} t^{n-2r+1-1}(1-t)^{2r-1}dt} = \frac{\frac{np^{(n-1)} + p^n(n-1)}{(n-1)n}}{\frac{1}{(n-1)n}} = np^{(n-1)}+p^n(n-1)\]</span>
-<span class="math display">\[\leftrightarrow 1-np^{(n-1)} + p^n(n-1) = 1-\alpha\]</span>
-If <span class="math inline">\(r \ne 1\)</span>, meaning we do not want to use the smallest and largest sample values for coverage but instead the 2nd smallest and largest or 3rd smallest and largest, etc. then this is the generalized case for that. It is analytically difficult to solve so numerical methods are most likely required. That said, this is not required if we inted to use the smallest and largest values of our sample for bounding the population no matter how large our sample size is. However, by closely examining this expression, we can see that more samples would be required to bound the population using higher order ranks in order to achieve the same level of confidence using the minimum and maximum of the sample.</p>
+<span class="math display">\[\leftrightarrow 1-np^{(n-1)} + p^n(n-1) = 1-\alpha\]</span> If <span class="math inline">\(r \ne 1\)</span>,
+meaning we do not want to use the smallest and largest sample values for
+coverage but instead the 2nd smallest and largest or 3rd smallest and
+largest, etc. then this is the generalized case for that. It is
+analytically difficult to solve so numerical methods are most likely
+required. That said, this is not required if we intend to use the
+smallest and largest values of our sample for bounding the population no
+matter how large our sample size is. However, by closely examining this
+expression, we can see that more samples would be required to bound the
+population using higher order ranks in order to achieve the same level
+of confidence using just the minimum and maximum of the sample.</p>
 <p><span class="math display">\[1 - \frac{\int_0^p t^{n-2r}(1-t)^{2r-1}dt}{\int_0^1 t^{n-2r}(1-t)^{2r-1}dt} = 1 - \alpha\]</span>
-This method has been verified via simulation with various mockup populations to demonstrate that, indeed, <span class="math inline">\(1-\alpha %\)</span> of intervals computed under this method contains at least the specified proportion of the population, regardless of the population’s distribution which we showcase in the next section.</p>
-<p><em>Sample Size Formulation</em>
-We now have a sample size formula to determine the number of samples to gather that will bound the population within at least a proportion, <span class="math inline">\(p\)</span>, with a level of confidence, <span class="math inline">\(1-\alpha\)</span> when using the smallest and largest sample values. Simply iterate through <span class="math inline">\(n\)</span> for a desired proportion coverage until the level of confidence is achieved.</p>
-<p><span class="math display">\[1 - np^{(n-1)} + p^n(n-1) = 1 - \alpha\]</span>
-<strong>Simulation</strong></p>
+This method has been verified via simulation with various mockup
+populations to demonstrate that, indeed, <span class="math inline">\(1-\alpha %\)</span> of intervals
+computed under this method contains at least the specified proportion of
+the population, regardless of the population’s distribution which we
+showcase in the next section.</p>
+<p><em>Sample Size Formulation</em></p>
+<p>We now have a sample size formula to determine
+the number of samples to gather that will bound the population within at
+least a proportion, <span class="math inline">\(p\)</span>, with a level of confidence, <span class="math inline">\(1-\alpha\)</span> when
+using the smallest and largest sample values. Simply iterate through <span class="math inline">\(n\)</span>
+for a desired proportion coverage until the level of confidence is
+achieved.</p>
+<p><span class="math display">\[1 - np^{(n-1)} + p^n(n-1) = 1 - \alpha\]</span></p>
+<p><strong>Simulation</strong></p>
+<p>To see that this method works, we’ll perform a simulation where we
+create a fake population that is randomly sampled from. Using the sample
+from the population, we’ll construct limits</p>
+<p>using the method we’ve covered above. As these limits have the
+probability of</p>
+<p>that is,</p>
+<p>we’ll assess how frequently</p>
+<p>to ensure as desired perform</p>
+<p>a real population as it would here</p>
+<p>construct limits that assess the</p>
 <pre class="r"><code>library(tolerance)
 
 population = c(rnorm(500,mean = 25,sd = 2),rlnorm(500,meanlog = 3,sdlog = sqrt(.25))) # fake population
@@ -69,10 +152,10 @@ hist(our_sample)
 
 tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = &quot;WILKS&quot;)</code></pre>
 <pre><code>##   alpha   P 2-sided.lower 2-sided.upper
-## 1   0.1 0.9      6.708026      70.83719</code></pre>
+## 1   0.1 0.9      9.336945      43.47229</code></pre>
 <pre class="r"><code>tolerance::normtol.int(our_sample, alpha = .10,P = .10,side = 2,method = &quot;HE&quot;)</code></pre>
 <pre><code>##   alpha   P    x.bar 2-sided.lower 2-sided.upper
-## 1   0.1 0.1 23.96237      22.14617      25.77857</code></pre>
+## 1   0.1 0.1 22.38574      21.16694      23.60453</code></pre>
 <pre class="r"><code>n = 1000 # of iterations
 intervals = matrix(data = NA, nrow = n, ncol = 3)
 bad_intervals = matrix(data = NA, nrow = n, ncol = 3) # showing what happens if you assume the wrong distribution
@@ -100,9 +183,9 @@ for (i in 1:n){
 
 #intervals
 sum(results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.968</code></pre>
+<pre><code>## [1] 0.981</code></pre>
 <pre class="r"><code>sum(bad_results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.599</code></pre>
+<pre><code>## [1] 0.627</code></pre>
 <pre class="r"><code># Number of samples vs. confidence lvl vs. population coverage
 
 ss = c(seq(40,120,by = 10))
@@ -138,9 +221,11 @@ cl</code></pre>
           drape = TRUE, colorkey = TRUE, main = &quot;Confidence Level vs. Population Coverage vs. Sample Size&quot;)</code></pre>
 <p><img src="/professional/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
 <p><strong>Example Application</strong></p>
+<p><strong>Conclusion</strong></p>
 <p><strong>References</strong></p>
 <ol style="list-style-type: decimal">
-<li>Wilk’s Formula Applied to Computational Tools: A Practical Discussion and Verification</li>
+<li>Wilk’s Formula Applied to Computational Tools: A Practical
+Discussion and Verification</li>
 <li></li>
 <li></li>
 </ol>
