@@ -2,7 +2,7 @@
 title: "Nonparametric Tolerance Intervals - Part I"
 author: "Bryant Chen"
 date: 2022-12-27
-categories: ["Blog"]
+categories: ["Professional"]
 tags: ["Simulation", "Nonparametric", "Tolerance","Mathematical Statistics","Order Statistics"]
 description: A method for constructing a nonparametric tolerance interval.
 output:
@@ -156,33 +156,18 @@ $$1 - np^{(n-1)} + p^n(n-1) = 1 - \alpha$$
 
 **Simulation**
 
-To see that this method works, we'll perform a simulation where we
-create a fake population that is randomly sampled from. Using the sample
-from the population, we'll construct limits
-
-using the method we've covered above. As these limits have the
-probability of
-
-that is,
-
-we'll assess how frequently
-
-to ensure as desired perform
-
-a real population as it would here
-
-construct limits that assess the
+To see that this method works, we'll perform a simulation where we create a fake population that is randomly sampled from. Using the sample from the population, we'll construct a tolerance interval using Wilk's method that we've covered above by utilizing the tolerance package which can conveniently compute one based on a method specified from several supported by it. As these limits have the probability of bounding the population with at least the proportion of interest, we'll also assess how frequently this is the case to verify that the actual coverage equates to the nominal coverage as desired. The code for the simulation and for evaluating the coverage probability is as follows - 
 
 ```{r}
 library(tolerance)
 
 population = c(rnorm(500,mean = 25,sd = 2),rlnorm(500,meanlog = 3,sdlog = sqrt(.25))) # fake population
-hist(population)
+hist(population, main = "Histogram of Fake Population")
 
 our_sample = sample(x = population,size = 65,replace = FALSE)
-hist(our_sample)
+hist(our_sample, main = "Histogram of Sample Obtained from Fake Population")
 
-tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = "WILKS")
+tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = "WILKS") # tolerance interval based on Wilk's method
 tolerance::normtol.int(our_sample, alpha = .10,P = .10,side = 2,method = "HE")
 
 n = 1000 # of iterations
