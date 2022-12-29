@@ -1,7 +1,7 @@
 ---
 title: "Nonparametric Tolerance Intervals - Part I"
 author: "Bryant Chen"
-date: 2022-12-27
+date: 2022-12-28
 categories: ["Professional"]
 tags: ["Simulation", "Nonparametric", "Tolerance","Mathematical Statistics","Order Statistics"]
 description: A method for constructing a nonparametric tolerance interval.
@@ -143,64 +143,21 @@ computed under this method contains at least the specified proportion of
 the population, regardless of the population's distribution which we
 showcase in the next section.
 
-*Sample Size Formulation* 
+*Sample Size Formulation*
 
-We now have a sample size formula to determine
-the number of samples to gather that will bound the population within at
-least a proportion, $p$, with a level of confidence, $1-\alpha$ when
-using the smallest and largest sample values. Simply iterate through $n$
-for a desired proportion coverage until the level of confidence is
-achieved.
+We now have a sample size formula to determine the number of samples to
+gather that will bound the population within at least a proportion, $p$,
+with a level of confidence, $1-\alpha$ when using the smallest and
+largest sample values. We simply iterate through $n$ for a desired
+proportion coverage until the level of confidence is achieved.
 
-$$1 - np^{(n-1)} + p^n(n-1) = 1 - \alpha$$ 
+$$1 - np^{(n-1)} + p^n(n-1) = 1 - \alpha$$
 
-**Simulation**
-
-To see that this method works, we'll perform a simulation where we create a fake population that is randomly sampled from. Using the sample from the population, we'll construct a tolerance interval using Wilk's method that we've covered above by utilizing the tolerance package which can conveniently compute one based on a method specified from several supported by it. As these limits have the probability of bounding the population with at least the proportion of interest, we'll also assess how frequently this is the case to verify that the actual coverage equates to the nominal coverage as desired. The code for the simulation and for evaluating the coverage probability is as follows - 
+To visualize the relationship between these variables via the formula above - sample size
+$(n)$, population coverage $(p)$ and confidence level $1-/alpha$, they are plotted together below.
 
 ```{r}
-library(tolerance)
-
-population = c(rnorm(500,mean = 25,sd = 2),rlnorm(500,meanlog = 3,sdlog = sqrt(.25))) # fake population
-hist(population, main = "Histogram of Fake Population")
-
-our_sample = sample(x = population,size = 65,replace = FALSE)
-hist(our_sample, main = "Histogram of Sample Obtained from Fake Population")
-
-tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = "WILKS") # tolerance interval based on Wilk's method
-tolerance::normtol.int(our_sample, alpha = .10,P = .10,side = 2,method = "HE")
-
-n = 1000 # of iterations
-intervals = matrix(data = NA, nrow = n, ncol = 3)
-bad_intervals = matrix(data = NA, nrow = n, ncol = 3) # showing what happens if you assume the wrong distribution
-results = c()
-bad_results = c()
-
-for (i in 1:n){
-  our_sample = sample(population,size = 65,replace = FALSE)
-  intervals[i,1] = nptol.int(our_sample,alpha = .03,P = .92,side = 2,method = "WILKS")[3]$'2-sided.lower'
-  intervals[i,2] = nptol.int(our_sample,alpha = .03,P = .92,side = 2,method = "WILKS")[4]$'2-sided.upper'
-  intervals[i,3] = length(population[population <= intervals[i,2]])/1000 - length(population[population <= intervals[i,1]])/1000
-  
-  bad_intervals[i,1] = normtol.int(x = our_sample,alpha = .10,P = .9,side = 2,method = "HE")$'2-sided.lower'
-  bad_intervals[i,2] = normtol.int(x = our_sample,alpha = .10,P = .9,side = 2,method = "HE")$'2-sided.upper'
-  bad_intervals[i,3] = length(population[population <= bad_intervals[i,2]])/1000 - length(population[population <= bad_intervals[i,1]])/1000
-  
-  if(intervals[i,3] < .92){
-    results[i] = FALSE
-  } else (results[i] = TRUE)
-  
-  if(bad_intervals[i,3] < .92){
-    bad_results[i] = FALSE
-  } else (bad_results[i] = TRUE)
-}
-
-#intervals
-sum(results)/n # confidence level
-sum(bad_results)/n # confidence level
-
 # Number of samples vs. confidence lvl vs. population coverage
-
 ss = c(seq(40,120,by = 10))
 pc = c(seq(.80,.99,by = .03))
 cl = c()
@@ -217,7 +174,6 @@ colnames(cl) = pc
 cl
 
 library(lattice)
-
 wireframe(cl,
           zlab = '1-a',
           xlab = 'n',
@@ -226,17 +182,78 @@ wireframe(cl,
 
 ```
 
-**Example Application**
+**Simulation**
+
+To see that this method works, we'll perform a simulation where we
+create a fake population that is randomly sampled from. Using the sample
+from the population, we'll construct a tolerance interval using Wilk's
+method that we've covered above by utilizing the tolerance package which
+can conveniently compute one based on a method specified from several
+supported by it. As these limits have the probability of bounding the
+population with at least the proportion of interest, we'll also assess
+how frequently this is the case to verify that the actual coverage
+equates to the nominal coverage as desired. The code for the simulation
+and for evaluating the coverage probability is as follows -
 
 ```{r}
+library(tolerance)
 
+population = c(rnorm(500,mean = 25,sd = 2),rlnorm(500,meanlog = 3,sdlog = sqrt(.25))) # fake population
+hist(population, main = "Histogram of Fake Population",xlab = "")
+
+our_sample = sample(x = population,size = 65,replace = FALSE)
+hist(our_sample, main = "Histogram of Sample Obtained from Fake Population", xlab = "")
+
+tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = "WILKS") # 90/90 nonparametric tolerance interval based on Wilk's method
+tolerance::normtol.int(our_sample, alpha = .10,P = .10,side = 2,method = "HE") # 90/90 parametric tolerance interval based on normal distribution
+
+n = 1000 # of iterations
+intervals = matrix(data = NA, nrow = n, ncol = 3)
+bad_intervals = matrix(data = NA, nrow = n, ncol = 3) # showing what happens if you assume the wrong distribution
+results = c()
+bad_results = c()
+
+for (i in 1:n){
+  our_sample = sample(population,size = 65,replace = FALSE)
+  intervals[i,1] = nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = "WILKS")[3]$'2-sided.lower'
+  intervals[i,2] = nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = "WILKS")[4]$'2-sided.upper'
+  intervals[i,3] = length(population[population <= intervals[i,2]])/1000 - length(population[population <= intervals[i,1]])/1000
+  
+  bad_intervals[i,1] = normtol.int(x = our_sample,alpha = .10,P = .9,side = 2,method = "HE")$'2-sided.lower'
+  bad_intervals[i,2] = normtol.int(x = our_sample,alpha = .10,P = .9,side = 2,method = "HE")$'2-sided.upper'
+  bad_intervals[i,3] = length(population[population <= bad_intervals[i,2]])/1000 - length(population[population <= bad_intervals[i,1]])/1000
+  
+  if(intervals[i,3] < .90){
+    results[i] = FALSE
+  } else (results[i] = TRUE)
+  
+  if(bad_intervals[i,3] < .90){
+    bad_results[i] = FALSE
+  } else (bad_results[i] = TRUE)
+}
+
+#intervals
+sum(results)/n # confidence level
+sum(bad_results)/n # confidence level
 ```
 
-**Conclusion**
+**Example Application**
+
+Turning towards a real-world example of applying Wilk's method by computing a nonparametric interval using one of the most popular built-in R data sets - mtcars, we showcase how simple it is to do so using the tolerance package as used in part of the simulation. Specifically, we computed a 95/95 tolerance interval for the weight of automobiles based on the 32 automobiles in the data set, assuming them to be an independently drawn subset of a larger population of automobiles. 
+
+```{r}
+tolerance::nptol.int(mtcars$wt,alpha = .05,P = .95,side = 2,method = "WILKS") # 90/90 nonparametric tolerance 
+```
+
+**Results and Conclusion**
+
+
+
 
 **References**
 
-1.  Wilk's Formula Applied to Computational Tools: A Practical
+1. 
+2.  Wilk's Formula Applied to Computational Tools: A Practical
     Discussion and Verification
-2.  
-3.  
+3.  <https://en.wikipedia.org/wiki/Tolerance_interval>
+4.  <https://en.wikipedia.org/wiki/Coverage_probability>
