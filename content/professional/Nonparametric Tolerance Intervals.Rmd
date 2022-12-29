@@ -239,20 +239,30 @@ sum(bad_results)/n # confidence level
 
 **Example Application**
 
-Turning towards a real-world example of applying Wilk's method by computing a nonparametric interval using one of the most popular built-in R data sets - mtcars, we showcase how simple it is to do so using the tolerance package as used in part of the simulation. Specifically, we computed a 95/95 tolerance interval for the weight of automobiles based on the 32 automobiles in the data set, assuming them to be an independently drawn subset of a larger population of automobiles. 
+Turning towards a real-world example of applying Wilk's method by computing a nonparametric interval using one of the most popular built-in R data sets - mtcars, we showcase how simple it is to do so using the tolerance package as used in part of the simulation. Specifically, we computed a 95/95 tolerance interval for the weight of automobiles based on the 32 automobiles in the data set, assuming them to be an independently drawn subset of a larger population of automobiles. We also plotted the interval limits on top of the data histogram generated using the plottol function included with the tolerance package.
 
 ```{r}
-tolerance::nptol.int(mtcars$wt,alpha = .05,P = .95,side = 2,method = "WILKS") # 90/90 nonparametric tolerance 
+result = tolerance::nptol.int(mtcars$wt,alpha = .05,P = .95,side = 2,method = "WILKS") # 90/90 nonparametric tolerance
+tolerance::plottol(tol.out = result,x = mtcars$wt,plot.type = "hist",x.lab = "")
 ```
 
 **Results and Conclusion**
 
+definitely check out the documentation on CRAN
 
+host of capabilities
+scratched the surface
+
+coverage probability does, in fact, meet the nominal coverage 
+
+normal distribution
+
+simplicity
 
 
 **References**
 
-1. 
+1.  tolerance: An R Package for Estimating Tolerance Intervals
 2.  Wilk's Formula Applied to Computational Tools: A Practical
     Discussion and Verification
 3.  <https://en.wikipedia.org/wiki/Tolerance_interval>

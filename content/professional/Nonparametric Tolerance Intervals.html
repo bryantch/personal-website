@@ -1,8 +1,8 @@
 ---
 title: "Nonparametric Tolerance Intervals - Part I"
 author: "Bryant Chen"
-date: 2022-12-27
-categories: ["Blog"]
+date: 2022-12-28
+categories: ["Professional"]
 tags: ["Simulation", "Nonparametric", "Tolerance","Mathematical Statistics","Order Statistics"]
 description: A method for constructing a nonparametric tolerance interval.
 output:
@@ -124,70 +124,15 @@ computed under this method contains at least the specified proportion of
 the population, regardless of the population’s distribution which we
 showcase in the next section.</p>
 <p><em>Sample Size Formulation</em></p>
-<p>We now have a sample size formula to determine
-the number of samples to gather that will bound the population within at
-least a proportion, <span class="math inline">\(p\)</span>, with a level of confidence, <span class="math inline">\(1-\alpha\)</span> when
-using the smallest and largest sample values. Simply iterate through <span class="math inline">\(n\)</span>
-for a desired proportion coverage until the level of confidence is
-achieved.</p>
+<p>We now have a sample size formula to determine the number of samples to
+gather that will bound the population within at least a proportion, <span class="math inline">\(p\)</span>,
+with a level of confidence, <span class="math inline">\(1-\alpha\)</span> when using the smallest and
+largest sample values. We simply iterate through <span class="math inline">\(n\)</span> for a desired
+proportion coverage until the level of confidence is achieved.</p>
 <p><span class="math display">\[1 - np^{(n-1)} + p^n(n-1) = 1 - \alpha\]</span></p>
-<p><strong>Simulation</strong></p>
-<p>To see that this method works, we’ll perform a simulation where we
-create a fake population that is randomly sampled from. Using the sample
-from the population, we’ll construct limits</p>
-<p>using the method we’ve covered above. As these limits have the
-probability of</p>
-<p>that is,</p>
-<p>we’ll assess how frequently</p>
-<p>to ensure as desired perform</p>
-<p>a real population as it would here</p>
-<p>construct limits that assess the</p>
-<pre class="r"><code>library(tolerance)
-
-population = c(rnorm(500,mean = 25,sd = 2),rlnorm(500,meanlog = 3,sdlog = sqrt(.25))) # fake population
-hist(population)</code></pre>
-<p><img src="/professional/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<pre class="r"><code>our_sample = sample(x = population,size = 65,replace = FALSE)
-hist(our_sample)
-
-tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = &quot;WILKS&quot;)</code></pre>
-<pre><code>##   alpha   P 2-sided.lower 2-sided.upper
-## 1   0.1 0.9      9.336945      43.47229</code></pre>
-<pre class="r"><code>tolerance::normtol.int(our_sample, alpha = .10,P = .10,side = 2,method = &quot;HE&quot;)</code></pre>
-<pre><code>##   alpha   P    x.bar 2-sided.lower 2-sided.upper
-## 1   0.1 0.1 22.38574      21.16694      23.60453</code></pre>
-<pre class="r"><code>n = 1000 # of iterations
-intervals = matrix(data = NA, nrow = n, ncol = 3)
-bad_intervals = matrix(data = NA, nrow = n, ncol = 3) # showing what happens if you assume the wrong distribution
-results = c()
-bad_results = c()
-
-for (i in 1:n){
-  our_sample = sample(population,size = 65,replace = FALSE)
-  intervals[i,1] = nptol.int(our_sample,alpha = .03,P = .92,side = 2,method = &quot;WILKS&quot;)[3]$&#39;2-sided.lower&#39;
-  intervals[i,2] = nptol.int(our_sample,alpha = .03,P = .92,side = 2,method = &quot;WILKS&quot;)[4]$&#39;2-sided.upper&#39;
-  intervals[i,3] = length(population[population &lt;= intervals[i,2]])/1000 - length(population[population &lt;= intervals[i,1]])/1000
-  
-  bad_intervals[i,1] = normtol.int(x = our_sample,alpha = .10,P = .9,side = 2,method = &quot;HE&quot;)$&#39;2-sided.lower&#39;
-  bad_intervals[i,2] = normtol.int(x = our_sample,alpha = .10,P = .9,side = 2,method = &quot;HE&quot;)$&#39;2-sided.upper&#39;
-  bad_intervals[i,3] = length(population[population &lt;= bad_intervals[i,2]])/1000 - length(population[population &lt;= bad_intervals[i,1]])/1000
-  
-  if(intervals[i,3] &lt; .92){
-    results[i] = FALSE
-  } else (results[i] = TRUE)
-  
-  if(bad_intervals[i,3] &lt; .92){
-    bad_results[i] = FALSE
-  } else (bad_results[i] = TRUE)
-}
-
-#intervals
-sum(results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.981</code></pre>
-<pre class="r"><code>sum(bad_results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.627</code></pre>
+<p>To visualize the relationship between these variables via the formula above - sample size
+<span class="math inline">\((n)\)</span>, population coverage <span class="math inline">\((p)\)</span> and confidence level <span class="math inline">\(1-/alpha\)</span>, they are plotted together below.</p>
 <pre class="r"><code># Number of samples vs. confidence lvl vs. population coverage
-
 ss = c(seq(40,120,by = 10))
 pc = c(seq(.80,.99,by = .03))
 cl = c()
@@ -212,20 +157,82 @@ cl</code></pre>
 ## 100 1.0000000 0.9999998 0.9999951 0.9998839 0.9976807 0.9629188 0.5967283
 ## 110 1.0000000 1.0000000 0.9999988 0.9999605 0.9989022 0.9759324 0.6483834
 ## 120 1.0000000 1.0000000 0.9999997 0.9999866 0.9994839 0.9844728 0.6946347</code></pre>
-<pre class="r"><code>library(lattice)</code></pre>
-<p><img src="/professional/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-1-2.png" width="672" /></p>
-<pre class="r"><code>wireframe(cl,
+<pre class="r"><code>library(lattice)
+wireframe(cl,
           zlab = &#39;1-a&#39;,
           xlab = &#39;n&#39;,
           ylab = &#39;p&#39;, scales = list(arrows = FALSE),
           drape = TRUE, colorkey = TRUE, main = &quot;Confidence Level vs. Population Coverage vs. Sample Size&quot;)</code></pre>
-<p><img src="/professional/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-1-3.png" width="672" /></p>
+<p><img src="/professional/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><strong>Simulation</strong></p>
+<p>To see that this method works, we’ll perform a simulation where we
+create a fake population that is randomly sampled from. Using the sample
+from the population, we’ll construct a tolerance interval using Wilk’s
+method that we’ve covered above by utilizing the tolerance package which
+can conveniently compute one based on a method specified from several
+supported by it. As these limits have the probability of bounding the
+population with at least the proportion of interest, we’ll also assess
+how frequently this is the case to verify that the actual coverage
+equates to the nominal coverage as desired. The code for the simulation
+and for evaluating the coverage probability is as follows -</p>
+<pre class="r"><code>library(tolerance)
+
+population = c(rnorm(500,mean = 25,sd = 2),rlnorm(500,meanlog = 3,sdlog = sqrt(.25))) # fake population
+hist(population, main = &quot;Histogram of Fake Population&quot;,xlab = &quot;&quot;)</code></pre>
+<p><img src="/professional/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>our_sample = sample(x = population,size = 65,replace = FALSE)
+hist(our_sample, main = &quot;Histogram of Sample Obtained from Fake Population&quot;, xlab = &quot;&quot;)</code></pre>
+<p><img src="/professional/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<pre class="r"><code>tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = &quot;WILKS&quot;) # 90/90 nonparametric tolerance interval based on Wilk&#39;s method</code></pre>
+<pre><code>##   alpha   P 2-sided.lower 2-sided.upper
+## 1   0.1 0.9      9.418932      51.46844</code></pre>
+<pre class="r"><code>tolerance::normtol.int(our_sample, alpha = .10,P = .10,side = 2,method = &quot;HE&quot;) # 90/90 parametric tolerance interval based on normal distribution</code></pre>
+<pre><code>##   alpha   P    x.bar 2-sided.lower 2-sided.upper
+## 1   0.1 0.1 23.65947      22.49479      24.82415</code></pre>
+<pre class="r"><code>n = 1000 # of iterations
+intervals = matrix(data = NA, nrow = n, ncol = 3)
+bad_intervals = matrix(data = NA, nrow = n, ncol = 3) # showing what happens if you assume the wrong distribution
+results = c()
+bad_results = c()
+
+for (i in 1:n){
+  our_sample = sample(population,size = 65,replace = FALSE)
+  intervals[i,1] = nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = &quot;WILKS&quot;)[3]$&#39;2-sided.lower&#39;
+  intervals[i,2] = nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = &quot;WILKS&quot;)[4]$&#39;2-sided.upper&#39;
+  intervals[i,3] = length(population[population &lt;= intervals[i,2]])/1000 - length(population[population &lt;= intervals[i,1]])/1000
+  
+  bad_intervals[i,1] = normtol.int(x = our_sample,alpha = .10,P = .9,side = 2,method = &quot;HE&quot;)$&#39;2-sided.lower&#39;
+  bad_intervals[i,2] = normtol.int(x = our_sample,alpha = .10,P = .9,side = 2,method = &quot;HE&quot;)$&#39;2-sided.upper&#39;
+  bad_intervals[i,3] = length(population[population &lt;= bad_intervals[i,2]])/1000 - length(population[population &lt;= bad_intervals[i,1]])/1000
+  
+  if(intervals[i,3] &lt; .90){
+    results[i] = FALSE
+  } else (results[i] = TRUE)
+  
+  if(bad_intervals[i,3] &lt; .90){
+    bad_results[i] = FALSE
+  } else (bad_results[i] = TRUE)
+}
+
+#intervals
+sum(results)/n # confidence level</code></pre>
+<pre><code>## [1] 0.908</code></pre>
+<pre class="r"><code>sum(bad_results)/n # confidence level</code></pre>
+<pre><code>## [1] 0.804</code></pre>
 <p><strong>Example Application</strong></p>
-<p><strong>Conclusion</strong></p>
+<p>Turning towards a real-world example of applying Wilk’s method by computing a nonparametric interval using one of the most popular built-in R data sets - mtcars, we showcase how simple it is to do so using the tolerance package as used in part of the simulation. Specifically, we computed a 95/95 tolerance interval for the weight of automobiles based on the 32 automobiles in the data set, assuming them to be an independently drawn subset of a larger population of automobiles. We also plotted the interval limits on top of the data histogram generated using the plottol function included with the tolerance package.</p>
+<pre class="r"><code>result = tolerance::nptol.int(mtcars$wt,alpha = .05,P = .95,side = 2,method = &quot;WILKS&quot;) # 90/90 nonparametric tolerance
+tolerance::plottol(tol.out = result,x = mtcars$wt,plot.type = &quot;hist&quot;,x.lab = &quot;&quot;)</code></pre>
+<p><img src="/professional/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><strong>Results and Conclusion</strong></p>
+<p>definitely check out the documentation</p>
+<p>host of capabilities
+scratched the surface</p>
 <p><strong>References</strong></p>
 <ol style="list-style-type: decimal">
+<li></li>
 <li>Wilk’s Formula Applied to Computational Tools: A Practical
 Discussion and Verification</li>
-<li></li>
-<li></li>
+<li><a href="https://en.wikipedia.org/wiki/Tolerance_interval" class="uri">https://en.wikipedia.org/wiki/Tolerance_interval</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Coverage_probability" class="uri">https://en.wikipedia.org/wiki/Coverage_probability</a></li>
 </ol>
