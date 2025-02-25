@@ -1,19 +1,3 @@
----
-title: "Nonparametric Tolerance Intervals - Part I"
-author: "Bryant Chen"
-date: 2022-12-28
-categories: ["Professional"]
-tags: ["Simulation", "Nonparametric", "Tolerance","Mathematical Statistics","Order Statistics"]
-description: A method for constructing a nonparametric tolerance interval.
-output:
-  html_document: default
-  pdf_document: default
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
-<script src="Nonparametric Tolerance Intervals_files/header-attrs/header-attrs.js"></script>
 
 
 <p><strong>Introduction</strong></p>
@@ -175,9 +159,10 @@ population with at least the proportion of interest, we’ll also assess
 how frequently this is the case to verify that the actual coverage
 equates to the nominal coverage as desired. The code for the simulation
 and for evaluating the coverage probability is as follows -</p>
-<pre class="r"><code>library(tolerance)
-
-population = c(rnorm(500,mean = 25,sd = 2),rlnorm(500,meanlog = 3,sdlog = sqrt(.25))) # fake population
+<pre class="r"><code>library(tolerance)</code></pre>
+<pre><code>## tolerance package, version 3.0.0, Released 2024-04-18
+## This package is based upon work supported by the Chan Zuckerberg Initiative: Essential Open Source Software for Science (Grant No. 2020-255193).</code></pre>
+<pre class="r"><code>population = c(rnorm(500,mean = 25,sd = 2),rlnorm(500,meanlog = 3,sdlog = sqrt(.25))) # fake population
 hist(population, main = &quot;Histogram of Fake Population&quot;,xlab = &quot;&quot;)</code></pre>
 <p><img src="/professional/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <pre class="r"><code>our_sample = sample(x = population,size = 65,replace = FALSE)
@@ -185,10 +170,10 @@ hist(our_sample, main = &quot;Histogram of Sample Obtained from Fake Population&
 <p><img src="/professional/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
 <pre class="r"><code>tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = &quot;WILKS&quot;) # 90/90 nonparametric tolerance interval based on Wilk&#39;s method</code></pre>
 <pre><code>##   alpha   P 2-sided.lower 2-sided.upper
-## 1   0.1 0.9      9.418932      51.46844</code></pre>
+## 1   0.1 0.9       9.65276      39.69055</code></pre>
 <pre class="r"><code>tolerance::normtol.int(our_sample, alpha = .10,P = .10,side = 2,method = &quot;HE&quot;) # 90/90 parametric tolerance interval based on normal distribution</code></pre>
 <pre><code>##   alpha   P    x.bar 2-sided.lower 2-sided.upper
-## 1   0.1 0.1 23.65947      22.49479      24.82415</code></pre>
+## 1   0.1 0.1 23.81177      22.68655      24.93698</code></pre>
 <pre class="r"><code>n = 1000 # of iterations
 intervals = matrix(data = NA, nrow = n, ncol = 3)
 bad_intervals = matrix(data = NA, nrow = n, ncol = 3) # showing what happens if you assume the wrong distribution
@@ -216,21 +201,23 @@ for (i in 1:n){
 
 #intervals
 sum(results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.908</code></pre>
+<pre><code>## [1] 0.887</code></pre>
 <pre class="r"><code>sum(bad_results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.804</code></pre>
+<pre><code>## [1] 0.8</code></pre>
 <p><strong>Example Application</strong></p>
 <p>Turning towards a real-world example of applying Wilk’s method by computing a nonparametric interval using one of the most popular built-in R data sets - mtcars, we showcase how simple it is to do so using the tolerance package as used in part of the simulation. Specifically, we computed a 95/95 tolerance interval for the weight of automobiles based on the 32 automobiles in the data set, assuming them to be an independently drawn subset of a larger population of automobiles. We also plotted the interval limits on top of the data histogram generated using the plottol function included with the tolerance package.</p>
 <pre class="r"><code>result = tolerance::nptol.int(mtcars$wt,alpha = .05,P = .95,side = 2,method = &quot;WILKS&quot;) # 90/90 nonparametric tolerance
 tolerance::plottol(tol.out = result,x = mtcars$wt,plot.type = &quot;hist&quot;,x.lab = &quot;&quot;)</code></pre>
 <p><img src="/professional/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p><strong>Results and Conclusion</strong></p>
-<p>definitely check out the documentation</p>
-<p>host of capabilities
-scratched the surface</p>
+<p><strong>Results and Conclusion</strong>
+Wilk’s method for nonparametric tolerance intervals is a powerful tool when you don’t want to assume a specific distribution for your data. Unlike parametric methods, which require strong assumptions, this approach lets you make robust inferences with minimal constraints. The trade-off? You often need a larger sample size to get the same level of precision as parametric alternatives.</p>
+<p>So when should you use it? If you’re working with messy real-world data—like quality control measurements, environmental studies, or reliability testing—where normality is questionable, Wilk’s method can be a lifesaver. It’s simple, distribution-free, and gets the job done.</p>
+<p>That said, nonparametric approaches aren’t always the most efficient choice. If you’re confident in your data’s distribution, parametric methods might give you tighter intervals with less data. But if you want flexibility and fewer assumptions, this is a solid way to go.</p>
+<p>The <em>tolerance</em> package is a solid tool for calculating tolerance intervals in a variety of scenarios—this post just scratches the surface. If you’re curious, check out the documentation on CRAN. Got any thoughts, critiques, or better approaches? I’m always up for a discussion!</p>
+<p><strong>Just the code, please</strong></p>
 <p><strong>References</strong></p>
 <ol style="list-style-type: decimal">
-<li></li>
+<li>tolerance: An R Package for Estimating Tolerance Intervals</li>
 <li>Wilk’s Formula Applied to Computational Tools: A Practical
 Discussion and Verification</li>
 <li><a href="https://en.wikipedia.org/wiki/Tolerance_interval" class="uri">https://en.wikipedia.org/wiki/Tolerance_interval</a></li>

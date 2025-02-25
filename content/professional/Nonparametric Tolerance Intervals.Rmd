@@ -247,18 +247,19 @@ tolerance::plottol(tol.out = result,x = mtcars$wt,plot.type = "hist",x.lab = "")
 ```
 
 **Results and Conclusion**
+Wilk’s method for nonparametric tolerance intervals is a powerful tool when you don’t want to assume a specific distribution for your data. Unlike parametric methods, which require strong assumptions, this approach lets you make robust inferences with minimal constraints. The trade-off? You often need a larger sample size to get the same level of precision as parametric alternatives.
 
-definitely check out the documentation on CRAN
+So when should you use it? If you’re working with messy real-world data—like quality control measurements, environmental studies, or reliability testing—where normality is questionable, Wilk’s method can be a lifesaver. It’s simple, distribution-free, and gets the job done.
 
-host of capabilities
-scratched the surface
+That said, nonparametric approaches aren’t always the most efficient choice. If you’re confident in your data’s distribution, parametric methods might give you tighter intervals with less data. But if you want flexibility and fewer assumptions, this is a solid way to go.
 
-coverage probability does, in fact, meet the nominal coverage 
+The *tolerance* package is a solid tool for calculating tolerance intervals in a variety of scenarios—this post just scratches the surface. If you’re curious, check out the documentation on CRAN. Got any thoughts, critiques, or better approaches? I’m always up for a discussion!
 
-normal distribution
+**Just the code, please**
 
-simplicity
+```{r}
 
+```
 
 **References**
 
