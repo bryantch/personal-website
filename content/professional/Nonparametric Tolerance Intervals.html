@@ -170,10 +170,10 @@ hist(our_sample, main = &quot;Histogram of Sample Obtained from Fake Population&
 <p><img src="/professional/Nonparametric%20Tolerance%20Intervals_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
 <pre class="r"><code>tolerance::nptol.int(our_sample,alpha = .10,P = .90,side = 2,method = &quot;WILKS&quot;) # 90/90 nonparametric tolerance interval based on Wilk&#39;s method</code></pre>
 <pre><code>##   alpha   P 2-sided.lower 2-sided.upper
-## 1   0.1 0.9       9.65276      39.69055</code></pre>
+## 1   0.1 0.9      8.791191      40.48789</code></pre>
 <pre class="r"><code>tolerance::normtol.int(our_sample, alpha = .10,P = .10,side = 2,method = &quot;HE&quot;) # 90/90 parametric tolerance interval based on normal distribution</code></pre>
 <pre><code>##   alpha   P    x.bar 2-sided.lower 2-sided.upper
-## 1   0.1 0.1 23.81177      22.68655      24.93698</code></pre>
+## 1   0.1 0.1 24.20196       23.2261      25.17781</code></pre>
 <pre class="r"><code>n = 1000 # of iterations
 intervals = matrix(data = NA, nrow = n, ncol = 3)
 bad_intervals = matrix(data = NA, nrow = n, ncol = 3) # showing what happens if you assume the wrong distribution
@@ -201,9 +201,9 @@ for (i in 1:n){
 
 #intervals
 sum(results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.887</code></pre>
+<pre><code>## [1] 0.9</code></pre>
 <pre class="r"><code>sum(bad_results)/n # confidence level</code></pre>
-<pre><code>## [1] 0.8</code></pre>
+<pre><code>## [1] 0.783</code></pre>
 <p><strong>Example Application</strong></p>
 <p>Turning towards a real-world example of applying Wilk’s method by computing a nonparametric interval using one of the most popular built-in R data sets - mtcars, we showcase how simple it is to do so using the tolerance package as used in part of the simulation. Specifically, we computed a 95/95 tolerance interval for the weight of automobiles based on the 32 automobiles in the data set, assuming them to be an independently drawn subset of a larger population of automobiles. We also plotted the interval limits on top of the data histogram generated using the plottol function included with the tolerance package.</p>
 <pre class="r"><code>result = tolerance::nptol.int(mtcars$wt,alpha = .05,P = .95,side = 2,method = &quot;WILKS&quot;) # 90/90 nonparametric tolerance
